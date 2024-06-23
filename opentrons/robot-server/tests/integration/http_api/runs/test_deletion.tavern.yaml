@@ -1,0 +1,31 @@
+test_name: Create and delete a run
+
+marks:
+  - usefixtures:
+      - ot2_server_base_url
+
+stages:
+  - name: Create Empty Run
+    request:
+      url: '{ot2_server_base_url}/runs'
+      json:
+        data: {}
+      method: POST
+    response:
+      status_code: 201
+      save:
+        json:
+          run_id: data.id
+  - name: Delete run
+    request:
+      url: '{ot2_server_base_url}/runs/{run_id}'
+      method: DELETE
+    response:
+      status_code: 200
+      json: {}
+  - name: Try to get deleted run
+    request:
+      url: '{ot2_server_base_url}/runs/{run_id}'
+      method: GET
+    response:
+      status_code: 404

@@ -1,0 +1,470 @@
+# Run tests, build the app, and deploy it cross platform
+
+name: 'App test, build, and deploy'
+
+on:
+  push:
+    paths:
+      - 'Makefile'
+      - 'app/**/*'
+      - 'app-shell/**/*'
+      - 'app-shell-odd/**/*'
+      - 'components/**/*'
+      - 'shared-data/**/*'
+      - 'discovery-client/**/*'
+      - '*.js'
+      - 'scripts/**/*'
+      - '*.json'
+      - 'yarn.lock'
+      - '.github/workflows/app-test-build-deploy.yaml'
+      - '.github/workflows/utils.js'
+    branches:
+      - '**'
+    tags:
+      - 'v*'
+      - 'ot3@*'
+  pull_request:
+    paths:
+      - 'Makefile'
+      - 'app/**/*'
+      - 'app-shell/**/*'
+      - 'app-shell-odd/**/*'
+      - 'components/**/*'
+      - 'shared-data/**/*'
+      - 'discovery-client/**/*'
+      - '*.js'
+      - '*.json'
+      - 'yarn.lock'
+      - 'scripts/**/*'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.ref_name != 'edge' || github.run_id}}-${{ github.ref_type != 'tag' || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  CI: true
+  _APP_DEPLOY_BUCKET_ROBOTSTACK: builds.opentrons.com
+  _APP_DEPLOY_FOLDER_ROBOTSTACK: app
+  _APP_DEPLOY_BUCKET_OT3: ot3-development.builds.opentrons.com
+  _APP_DEPLOY_FOLDER_OT3: app
+
+jobs:
+  js-unit-test:
+    # unit tests for the app's view layer (not the node layer)
+    runs-on: 'ubuntu-22.04'
+    name: 'opentrons app frontend unit tests'
+    timeout-minutes: 60
+    steps:
+      - uses: 'actions/checkout@v3'
+      - uses: 'actions/setup-node@v3'
+        with:
+          node-version: '18.19.0'
+      - name: 'install udev'
+        run: |
+          # WORKAROUND: Remove microsoft debian repo due to https://github.com/microsoft/linux-package-repositories/issues/130. Remove line below after it is resolved
+          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
+          sudo apt-get update && sudo apt-get install libudev-dev
+      - name: 'set complex environment variables'
+        id: 'set-vars'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { buildComplexEnvVars } = require(`${process.env.GITHUB_WORKSPACE}/.github/workflows/utils.js`)
+            buildComplexEnvVars(core, context)
+      - name: 'cache yarn cache'
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/.npm-cache/_prebuild
+            ${{ github.workspace }}/.yarn-cache
+          key: js-${{ secrets.GH_CACHE_VERSION }}-${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+      - name: 'setup-js'
+        run: |
+          npm config set cache ${{ github.workspace }}/.npm-cache
+          yarn config set cache-folder ${{ github.workspace }}/.yarn-cache
+          make setup-js
+      - name: 'test frontend packages'
+        run: |
+          make -C app test-cov
+      - name: 'Upload coverage report'
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+          flags: app
+
+  backend-unit-test:
+    strategy:
+      matrix:
+        os: ['windows-2022', 'ubuntu-22.04', 'macos-11']
+    name: 'opentrons app backend unit tests on ${{matrix.os}}'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: 'actions/checkout@v3'
+        with:
+          fetch-depth: 0
+      # https://github.com/actions/checkout/issues/290
+      - name: 'Fix actions/checkout odd handling of tags'
+        if: startsWith(github.ref, 'refs/tags')
+        run: |
+          git fetch -f origin ${{ github.ref }}:${{ github.ref }}
+          git checkout ${{ github.ref }}
+      - uses: 'actions/setup-node@v3'
+        with:
+          node-version: '18.19.0'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: check make version
+        run: make --version
+      - name: 'install libudev and libsystemd'
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          # WORKAROUND: Remove microsoft debian repo due to https://github.com/microsoft/linux-package-repositories/issues/130. Remove line below after it is resolved
+          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
+          sudo apt-get update && sudo apt-get install libudev-dev
+      - name: 'set complex environment variables'
+        id: 'set-vars'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { buildComplexEnvVars } = require(`${process.env.GITHUB_WORKSPACE}/.github/workflows/utils.js`)
+            buildComplexEnvVars(core, context)
+      - name: 'cache yarn cache'
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/.npm-cache/_prebuild
+            ${{ github.workspace }}/.yarn-cache
+          key: js-${{ secrets.GH_CACHE_VERSION }}-${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+      - name: setup-js
+        run: |
+          npm config set cache ${{ github.workspace }}/.npm-cache
+          yarn config set cache-folder ${{ github.workspace }}/.yarn-cache
+          make setup-js
+      - name: 'test native(er) packages'
+        run: make test-js-internal tests="app-shell/src app-shell-odd/src discovery-client/src" cov_opts="--coverage=true"
+      - name: 'Upload coverage report'
+        uses: 'codecov/codecov-action@v3'
+        with:
+          files: ./coverage/lcov.info
+          flags: app
+
+  determine-build-type:
+    runs-on: 'ubuntu-latest'
+    name: 'Determine build variant and type'
+    outputs:
+      variants: ${{steps.determine-build-type.outputs.variants}}
+      type: ${{steps.determine-build-type.outputs.type}}
+    steps:
+      - id: determine-build-type
+        run: |
+          echo "Determining build type for event ${{github.event_type}} and ref ${{github.ref}}"
+          if [ "${{ format('{0}', github.event_name == 'pull_request') }}" = "true" ] ; then
+            echo "No builds for pull requests"
+            echo 'variants=[]' >> $GITHUB_OUTPUT
+            echo 'type=develop' >> $GITHUB_OUTPUT
+          elif [ "${{ format('{0}', startsWith(github.ref, 'refs/tags/ot3')) }}" = "true" ] ; then
+            echo "internal-release release builds for ot3 tags"
+            echo 'variants=["internal-release"]' >> $GITHUB_OUTPUT
+            echo 'type=release' >> $GITHUB_OUTPUT
+          elif [ "${{ format('{0}', startsWith(github.ref, 'refs/tags/v')) }}" = "true" ] ; then
+            echo "release release builds for v tags"
+            echo 'variants=["release"]' >> $GITHUB_OUTPUT
+            echo 'type=release' >> $GITHUB_OUTPUT
+          elif [ "${{ format('{0}', startsWith(github.ref, 'refs/heads/internal-release')) }}" = "true" ] ; then
+            echo "internal-release develop builds for internal-release branches"
+            echo 'variants=["internal-release"]' >> $GITHUB_OUTPUT
+            echo 'type=develop' >> $GITHUB_OUTPUT
+          elif [ "${{ format('{0}', startsWith(github.ref, 'refs/heads/release') || startsWith(github.ref, 'refs/heads/chore_release')) }}" = "true" ] ; then
+            echo "Release develop builds for release branches"
+            echo 'variants=["release"]' >> $GITHUB_OUTPUT
+            echo 'type=develop' >> $GITHUB_OUTPUT
+          elif [ "${{ format('{0}', github.ref == 'refs/heads/edge') }}" = "true" ] ; then
+            echo "both develop builds for edge"
+            echo 'variants=["release", "internal-release"]' >> $GITHUB_OUTPUT
+            echo 'type=develop' >> $GITHUB_OUTPUT
+          elif [ "${{ format('{0}', endsWith(github.ref, 'app-build-internal')) }}" = "true" ] ; then
+            echo "internal-release builds for app-build-internal suffixes"
+            echo 'variants=["internal-release"]' >> $GITHUB_OUTPUT
+            echo 'type=develop' >> $GITHUB_OUTPUT
+          elif [ "${{ format('{0}', endsWith(github.ref, 'app-build')) }}" = "true" ] ; then
+            echo "release develop builds for app-build suffixes"
+            echo 'variants=["release"]' >> $GITHUB_OUTPUT
+            echo 'type=develop' >> $GITHUB_OUTPUT
+          elif [ "${{ format('{0}', endsWith(github.ref, 'app-build-both')) }}" = "true" ] ; then
+            echo "Both develop builds for app-build-both suffixes"
+            echo 'variants=["release", "internal-release"]' >> $GITHUB_OUTPUT
+            echo 'type=develop' >> $GITHUB_OUTPUT
+          else
+            echo "No build for ref ${{github.ref}} and event ${{github.event_type}}"
+            echo 'variants=[]' >> $GITHUB_OUTPUT
+            echo 'type=develop' >> $GITHUB_OUTPUT
+          fi
+
+  build-app:
+    needs: [determine-build-type]
+    if: needs.determine-build-type.outputs.variants != '[]'
+    strategy:
+      matrix:
+        os: ['windows-2022', 'ubuntu-22.04', 'macos-11']
+        variant: ${{fromJSON(needs.determine-build-type.outputs.variants)}}
+        target: ['desktop', 'odd']
+        exclude:
+          - os: 'windows-2022'
+            target: 'odd'
+          - os: 'macos-11'
+            target: 'odd'
+
+    runs-on: ${{ matrix.os }}
+    name: 'Build ${{matrix.variant}} ${{matrix.target}} app on ${{matrix.os}}'
+    steps:
+      - name: 'Get project name for variant'
+        id: project
+        shell: bash
+        run: |
+          if [ "${{matrix.variant}}" = "release" ] ; then
+             echo "Configuring project, bucket, and folder for robot-stack"
+             echo "project=robot-stack" >> $GITHUB_OUTPUT
+             echo "bucket=${{env._APP_DEPLOY_BUCKET_ROBOTSTACK}}" >> $GITHUB_OUTPUT
+             echo "folder=${{env._APP_DEPLOY_FOLDER_ROBOTSTACK}}" >> $GITHUB_OUTPUT
+          else
+             echo "Configuring project, bucket, and folder for ot3"
+             echo "project=ot3" >> $GITHUB_OUTPUT
+             echo "bucket=${{env._APP_DEPLOY_BUCKET_OT3}}" >> $GITHUB_OUTPUT
+             echo "folder=${{env._APP_DEPLOY_FOLDER_OT3}}" >> $GITHUB_OUTPUT
+          fi
+      - uses: 'actions/checkout@v3'
+        with:
+          fetch-depth: 0
+      # https://github.com/actions/checkout/issues/290
+      - name: 'Fix actions/checkout odd handling of tags'
+        if: startsWith(github.ref, 'refs/tags')
+        run: |
+          git fetch -f origin ${{ github.ref }}:${{ github.ref }}
+          git checkout ${{ github.ref }}
+      - uses: 'actions/setup-node@v3'
+        with:
+          node-version: '18.19.0'
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: check make version
+        run: make --version
+      - name: 'install libudev and libsystemd'
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          # WORKAROUND: Remove microsoft debian repo due to https://github.com/microsoft/linux-package-repositories/issues/130. Remove line below after it is resolved
+          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
+          sudo apt-get update && sudo apt-get install libudev-dev
+      - name: 'set complex environment variables'
+        id: 'set-vars'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { buildComplexEnvVars } = require(`${process.env.GITHUB_WORKSPACE}/.github/workflows/utils.js`)
+            buildComplexEnvVars(core, context)
+      - name: 'cache yarn cache'
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/.npm-cache/_prebuild
+            ${{ github.workspace }}/.yarn-cache
+          key: js-${{ secrets.GH_CACHE_VERSION }}-${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+      - name: setup-js
+        run: |
+          npm config set cache ${{ github.workspace }}/.npm-cache
+          yarn config set cache-folder ${{ github.workspace }}/.yarn-cache
+          make setup-js
+      # build the desktop app and deploy it
+      - name: 'build ${{matrix.variant}} app for ${{ matrix.os }}'
+        if: matrix.target == 'desktop'
+        timeout-minutes: 60
+        env:
+          OT_APP_MIXPANEL_ID: ${{ secrets.OT_APP_MIXPANEL_ID }}
+          OT_APP_INTERCOM_ID: ${{ secrets.OT_APP_INTERCOM_ID }}
+          WIN_CSC_LINK: ${{ secrets.OT_APP_CSC_WINDOWS }}
+          WIN_CSC_KEY_PASSWORD: ${{ secrets.OT_APP_CSC_KEY_WINDOWS }}
+          CSC_LINK: ${{ secrets.OT_APP_CSC_MACOS }}
+          CSC_KEY_PASSWORD: ${{ secrets.OT_APP_CSC_KEY_MACOS }}
+          APPLE_ID: ${{ secrets.OT_APP_APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.OT_APP_APPLE_ID_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.OT_APP_APPLE_TEAM_ID }}
+          HOST_PYTHON: python
+          OPENTRONS_PROJECT: ${{ steps.project.outputs.project }}
+          OT_APP_DEPLOY_BUCKET: ${{ steps.project.outputs.bucket }}
+          OT_APP_DEPLOY_FOLDER: ${{ steps.project.outputs.folder }}
+
+        run: |
+          make -C app-shell dist-${{ matrix.os }} USE_HARD_LINKS=false
+
+      - name: 'upload github artifact'
+        if: matrix.target == 'desktop'
+        uses: actions/upload-artifact@v3
+        with:
+          name: 'opentrons-${{matrix.variant}}-${{ matrix.os }}'
+          path: app-shell/dist/publish
+
+      # build the ODD app
+      - if: matrix.target == 'odd'
+        name: 'build ${{matrix.variant}} ODD app'
+        timeout-minutes: 60
+        env:
+          OPENTRONS_PROJECT: ${{ steps.project.outputs.project }}
+        run: |
+          make -C app-shell-odd dist-ot3
+
+  deploy-release-app:
+    name: 'Deploy built app artifacts to S3'
+    runs-on: 'ubuntu-22.04'
+    needs:
+      ['js-unit-test', 'backend-unit-test', 'build-app', 'determine-build-type']
+    if: contains(fromJSON(needs.determine-build-type.outputs.variants), 'release') || contains(fromJSON(needs.determine-build-type.outputs.variants), 'internal-release')
+    steps:
+      - name: 'download run app builds'
+        uses: 'actions/download-artifact@v3'
+        with:
+          path: ./artifacts
+      - name: 'separate release and internal-release artifacts'
+        run: |
+          for variant in release internal-release ; do
+              mkdir to_upload_${variant}
+              variant_pattern="./artifacts/opentrons-${variant}-*"
+              ls ${variant_pattern}/ 2>/dev/null 1>/dev/null || continue
+              echo "Moving ${variant} builds ${variant_pattern}/* to to_upload_${variant}"
+              cp ${variant_pattern}/* ./to_upload_${variant}/
+              echo "Moved $(ls ./to_upload_${variant})"
+          done
+      - name: 'configure s3 deploy creds'
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.S3_OT3_APP_DEPLOY_KEY_ID }} --profile identity
+          aws configure set aws_secret_access_key ${{ secrets.S3_OT3_APP_DEPLOY_SECRET }} --profile identity
+          aws configure set region us-east-2 --profile identity
+          aws configure set output json --profile identity
+          aws configure set region us-east-2 --profile deploy
+          aws configure set role_arn ${{ secrets.OT_APP_OT3_DEPLOY_ROLE }} --profile deploy
+          aws configure set source_profile identity --profile deploy
+        shell: bash
+      - name: 'deploy release builds to s3'
+        run: |
+          aws --profile=deploy s3 sync --acl=public-read to_upload_release/ s3://${{ env._APP_DEPLOY_BUCKET_ROBOTSTACK }}/${{ env._APP_DEPLOY_FOLDER_ROBOTSTACK }}
+      - name: 'deploy internal-release release builds to s3'
+        run: |
+          aws s3 --profile=deploy sync --acl=public-read to_upload_internal-release/ s3://${{ env._APP_DEPLOY_BUCKET_OT3 }}/${{ env._APP_DEPLOY_FOLDER_OT3 }}
+
+      - name: 'upload windows artifacts to GH release'
+        uses: 'ncipollo/release-action@v1.12.0'
+        if: needs.determine-build-type.outputs.type == 'release'
+        with:
+          allowUpdates: true
+          omitBodyDuringUpdate: true
+          omitDraftDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          artifacts: ./artifacts/*/*.exe
+          artifactContentType: application/vnd.microsoft.portable-executable
+      - name: 'upload macos artifacts to GH release'
+        uses: 'ncipollo/release-action@v1.12.0'
+        if: needs.determine-build-type.outputs.type == 'release'
+        with:
+          allowUpdates: true
+          omitBodyDuringUpdate: true
+          omitDraftDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          artifacts: ./artifacts/*/*.dmg
+          artifactContentType: application/octet-stream
+      - name: 'upload linux artifacts to GH release'
+        uses: 'ncipollo/release-action@v1.12.0'
+        if: needs.determine-build-type.outputs.type == 'release'
+        with:
+          allowUpdates: true
+          omitBodyDuringUpdate: true
+          omitDraftDuringUpdate: true
+          omitNameDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
+          artifacts: ./artifacts/*/*.AppImage
+          artifactContentType: application/octet-stream
+      - name: 'detect build data for notification'
+        id: names
+        shell: bash
+        run: |
+          for variant in release internal-release ; do
+              dir=./to_upload_${variant}
+              echo "Checking for ${variant} builds in ${dir}"
+              ls ${dir}/Opentrons* || continue
+              _windows_build=$(basename $(ls ./to_upload_${variant}/Opentrons*.exe))
+              _mac_build=$(basename $(ls ./to_upload_${variant}/Opentrons*.dmg))
+              _linux_build=$(basename $(ls ./to_upload_${variant}/Opentrons*.AppImage))
+              echo "windows-${variant}=$_windows_build">>$GITHUB_OUTPUT
+              echo "mac-${variant}=$_mac_build">>$GITHUB_OUTPUT
+              echo "linux-${variant}=$_linux_build">>$GITHUB_OUTPUT
+          done
+      - name: 'slack notify internal-release'
+        uses: slackapi/slack-github-action@v1.14.0
+        if: contains(fromJSON(needs.determine-build-type.outputs.variants), 'internal-release')
+        with:
+          payload: '{"branch_or_tag":"${{ github.ref_name }}","build_type":"${{ needs.determine-build-type.outputs.type }}", "gh_linkback":"https://github.com/Opentrons/opentrons/tree/${{ github.ref_name }}", "windows_build":"${{ env._ACCESS_URL }}/${{steps.names.outputs.windows-internal-release}}", "mac_build":"${{ env._ACCESS_URL }}/${{steps.names.outputs.mac-internal-release}}", "linux_build":"${{ env._ACCESS_URL }}/${{steps.names.outputs.linux-internal-release}}"}'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.OT_APP_OT3_SLACK_NOTIFICATION_WEBHOOK_URL }}
+          _ACCESS_URL: https://${{env._APP_DEPLOY_BUCKET_OT3}}/${{env._APP_DEPLOY_FOLDER_OT3}}
+      - name: 'slack notify release'
+        uses: slackapi/slack-github-action@v1.14.0
+        if: contains(fromJSON(needs.determine-build-type.outputs.variants), 'release')
+        with:
+          payload: '{"branch_or_tag":"${{ github.ref_name }}","build_type":"${{ needs.determine-build-type.outputs.type }}", "gh_linkback":"https://github.com/Opentrons/opentrons/tree/${{ github.ref_name }}", "windows_build":"${{ env._ACCESS_URL }}/${{steps.names.outputs.windows-release}}", "mac_build":"${{ env._ACCESS_URL }}/${{steps.names.outputs.mac-release}}", "linux_build":"${{ env._ACCESS_URL }}/${{steps.names.outputs.linux-release}}"}'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.OT_APP_ROBOTSTACK_SLACK_NOTIFICATION_WEBHOOK_URL }}
+          _ACCESS_URL: https://${{env._APP_DEPLOY_BUCKET_ROBOTSTACK}}/${{env._APP_DEPLOY_FOLDER_ROBOTSTACK}}
+
+      - name: 'pull repo for scripts'
+        uses: 'actions/checkout@v3'
+        with:
+          path: ./monorepo
+      # https://github.com/actions/checkout/issues/290
+      - name: 'Fix actions/checkout odd handling of tags'
+        if: startsWith(github.ref, 'refs/tags')
+        run: |
+          cd ./monorepo
+          git fetch -f origin ${{ github.ref }}:${{ github.ref }}
+          git checkout ${{ github.ref }}
+      - uses: 'actions/setup-node@v3'
+        with:
+          node-version: '18.19.0'
+      - name: 'install udev'
+        run: |
+          # WORKAROUND: Remove microsoft debian repo due to https://github.com/microsoft/linux-package-repositories/issues/130. Remove line below after it is resolved
+          sudo rm -f /etc/apt/sources.list.d/microsoft-prod.list
+          sudo apt-get update && sudo apt-get install libudev-dev
+      - name: 'set complex environment variables'
+        id: 'set-vars'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { buildComplexEnvVars } = require(`${process.env.GITHUB_WORKSPACE}/monorepo/.github/workflows/utils.js`)
+            buildComplexEnvVars(core, context)
+      - name: 'cache yarn cache'
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ github.workspace }}/.npm-cache/_prebuild
+            ${{ github.workspace }}/.yarn-cache
+      - name: 'setup-js'
+        run: |
+          npm config set cache ${{ github.workspace }}/.npm-cache
+          yarn config set cache-folder ${{ github.workspace }}/.yarn-cache
+          cd monorepo
+          make setup-js
+      - name: 'update internal-releases releases.json'
+        if: needs.determine-build-type.outputs.type == 'release' && contains(fromJSON(needs.determine-build-type.outputs.variants), 'internal-release')
+        run: |
+          aws --profile=deploy s3 cp s3://${{ env._APP_DEPLOY_BUCKET_OT3 }}/${{ env._APP_DEPLOY_FOLDER_OT3 }}/releases.json ./to_upload_internal-release/releases.json
+          node ./monorepo/scripts/update-releases-json ./to_upload_internal-release/releases.json ot3 ./to_upload_internal-release https://ot3-development.builds.opentrons.com/app/
+          aws --profile=deploy s3 cp ./to_upload_internal-release/releases.json s3://${{ env._APP_DEPLOY_BUCKET_OT3 }}/${{ env._APP_DEPLOY_FOLDER_OT3 }}/releases.json
+
+      - name: 'update release releases.json'
+        if: needs.determine-build-type.outputs.type == 'release' && contains(fromJSON(needs.determine-build-type.outputs.variants), 'release')
+        run: |
+          aws --profile=deploy s3 cp s3://${{ env._APP_DEPLOY_BUCKET_ROBOTSTACK }}/${{ env._APP_DEPLOY_FOLDER_ROBOTSTACK }}/releases.json ./to_upload_release/releases.json
+          node ./monorepo/scripts/update-releases-json ./to_upload_release/releases.json robot-stack ./to_upload_release https://builds.opentrons.com/app/
+          aws --profile=deploy s3 cp ./to_upload_release/releases.json s3://${{ env._APP_DEPLOY_BUCKET_ROBOTSTACK }}/${{ env._APP_DEPLOY_FOLDER_ROBOTSTACK }}/releases.json

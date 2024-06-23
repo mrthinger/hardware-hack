@@ -1,0 +1,126 @@
+test_name: Upload and run a PAPI v2 protocol that should fail.
+
+marks:
+  - usefixtures:
+      - ot2_server_base_url
+stages:
+  - name: Upload a protocol
+    request:
+      url: '{ot2_server_base_url}/protocols'
+      method: POST
+      files:
+        files: 'tests/integration/protocols/runtime_error.py'
+    response:
+      status_code: 201
+      save:
+        json:
+          protocol_id: data.id
+
+  - name: Create run from protocol
+    request:
+      url: '{ot2_server_base_url}/runs'
+      method: POST
+      json:
+        data:
+          protocolId: '{protocol_id}'
+    response:
+      status_code: 201
+      save:
+        json:
+          run_id: data.id
+
+  - name: Play the run
+    request:
+      url: '{ot2_server_base_url}/runs/{run_id}/actions'
+      method: POST
+      json:
+        data:
+          actionType: play
+    response:
+      status_code: 201
+      strict:
+        - json:off
+
+  - name: Wait for the run to fail
+    max_retries: 10
+    delay_after: 0.1
+    request:
+      url: '{ot2_server_base_url}/runs/{run_id}'
+      method: GET
+    response:
+      status_code: 200
+      strict:
+        - json:off
+      json:
+        data:
+          status: failed
+
+  - name: Verify the run contains the expected error
+    request:
+      url: '{ot2_server_base_url}/runs/{run_id}'
+      method: GET
+    response:
+      status_code: 200
+      strict:
+        - json:off
+      json:
+        data:
+          errors:
+            - id: !anystr
+              errorType: ExceptionInProtocolError
+              isDefined: false
+              createdAt: !re_fullmatch "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+(Z|([+-]\\d{2}:\\d{2}))"
+              detail: 'UnexpectedTipRemovalError [line 9]: Error 3005 UNEXPECTED_TIP_REMOVAL (UnexpectedTipRemovalError): Cannot perform PREPARE_ASPIRATE without a tip attached.'
+              errorCode: '4000'
+              errorInfo: !anydict
+              wrappedErrors: !anylist
+
+  - name: Verify commands contain the expected results
+    request:
+      url: '{ot2_server_base_url}/runs/{run_id}/commands'
+      method: GET
+    response:
+      status_code: 200
+      json:
+        links:
+          current:
+            href: !anystr
+            meta:
+              runId: !anystr
+              commandId: !anystr
+              index: 3
+              key: !anystr
+              createdAt: !re_fullmatch "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+(Z|([+-]\\d{2}:\\d{2}))"
+        meta:
+          cursor: 3
+          totalLength: 4
+        data:
+          - id: !anystr
+            key: !anystr
+            commandType: aspirate
+            createdAt: !re_fullmatch "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+(Z|([+-]\\d{2}:\\d{2}))"
+            startedAt: !re_fullmatch "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+(Z|([+-]\\d{2}:\\d{2}))"
+            completedAt: !re_fullmatch "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+(Z|([+-]\\d{2}:\\d{2}))"
+            status: failed
+            notes: []
+            error:
+              id: !anystr
+              errorType: LegacyContextCommandError
+              isDefined: false
+              createdAt: !re_fullmatch "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d+(Z|([+-]\\d{2}:\\d{2}))"
+              detail: 'Cannot perform PREPARE_ASPIRATE without a tip attached.'
+              errorCode: '3005'
+              errorInfo: !anydict
+              wrappedErrors: !anylist
+            params:
+              pipetteId: !anystr
+              labwareId: !anystr
+              wellName: A1
+              wellLocation:
+                origin: top
+                offset:
+                  x: 0
+                  y: 0
+                  z: 0
+              flowRate: 150
+              volume: 100

@@ -1,0 +1,23 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+pytest = "==8.1.1"
+black = "==24.3.0"
+selenium = "==4.19.0"
+importlib-metadata = "==7.1.0"
+requests = "==2.31.0"
+python-dotenv = "==1.0.1"
+mypy = "==1.9.0"
+types-requests = "==2.31.0.20240311"
+rich = "==13.7.1"
+pydantic = "==2.6.4"
+ruff = "==0.3.4"
+docker = "==7.0.0"
+syrupy = "==4.6.1"
+pytest-html = "==4.1.1"
+
+[requires]
+python_version = "3.12"

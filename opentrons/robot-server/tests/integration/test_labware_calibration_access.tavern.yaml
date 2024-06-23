@@ -1,0 +1,80 @@
+test_name: Labware calibration endpoints
+marks:
+  - usefixtures:
+      - ot2_server_base_url
+stages:
+  - name: GET /labware/calibrations returns 410
+    request:
+      url: '{ot2_server_base_url}/labware/calibrations'
+      method: GET
+    response:
+      status_code: 410
+      json:
+        errors:
+          - id: 'LabwareCalibrationEndpointsRemoved'
+            title: 'Labware Calibration Endpoints Removed'
+            detail: 'Use the `/runs` endpoints to manage labware offsets.'
+            errorCode: '4002'
+  - name: GET /labware/calibrations/:id returns 410
+    request:
+      url: '{ot2_server_base_url}/labware/calibrations/some-id'
+      method: GET
+    response:
+      status_code: 410
+      json:
+        errors:
+          - id: 'LabwareCalibrationEndpointsRemoved'
+            title: 'Labware Calibration Endpoints Removed'
+            detail: 'Use the `/runs` endpoints to manage labware offsets.'
+            errorCode: '4002'
+  - name: DELETE /labware/calibrations/:id returns 410
+    request:
+      url: '{ot2_server_base_url}/labware/calibrations/some-id'
+      method: DELETE
+    response:
+      status_code: 410
+      json:
+        errors:
+          - id: 'LabwareCalibrationEndpointsRemoved'
+            title: 'Labware Calibration Endpoints Removed'
+            detail: 'Use the `/runs` endpoints to manage labware offsets.'
+            errorCode: '4002'
+  - name: GET /labware/calibrations returns empty list on version <= 3
+    request:
+      url: '{ot2_server_base_url}/labware/calibrations'
+      method: GET
+      headers:
+        Opentrons-Version: '3'
+    response:
+      status_code: 200
+      json:
+        links: null
+        data: []
+  - name: GET /labware/calibrations/:id returns 404 on version <=3
+    request:
+      url: '{ot2_server_base_url}/labware/calibrations/some-id'
+      method: GET
+      headers:
+        Opentrons-Version: '3'
+    response:
+      status_code: 404
+      json:
+        errors:
+          - id: 'UncategorizedError'
+            title: 'Resource Not Found'
+            detail: "Resource type 'calibration' with id 'some-id' was not found"
+            errorCode: '4000'
+  - name: DELETE /labware/calibrations/:id returns 404 on version <=3
+    request:
+      url: '{ot2_server_base_url}/labware/calibrations/some-id'
+      method: DELETE
+      headers:
+        Opentrons-Version: '3'
+    response:
+      status_code: 404
+      json:
+        errors:
+          - id: 'UncategorizedError'
+            title: 'Resource Not Found'
+            detail: "Resource type 'calibration' with id 'some-id' was not found"
+            errorCode: '4000'

@@ -1,0 +1,49 @@
+{
+  "name": "@opentrons/components",
+  "version": "0.0.0-dev",
+  "description": "React components library for Opentrons' projects",
+  "source": "src/index.ts",
+  "types": "lib/index.d.ts",
+  "style": "src/index.module.css",
+  "main": "lib/index.mjs",
+  "module": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Opentrons/opentrons.git"
+  },
+  "author": "Opentrons Labworks <engineering@opentrons.com> (https://opentrons.com)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Opentrons/opentrons/issues"
+  },
+  "homepage": "https://github.com/Opentrons/opentrons#readme",
+  "peerDependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "5.3.4",
+    "@types/react-router-dom": "5.3.3"
+  },
+  "dependencies": {
+    "@opentrons/shared-data": "link:../shared-data",
+    "@popperjs/core": "2.1.1",
+    "@react-spring/types": "9.6.1",
+    "@react-spring/web": "9.6.1",
+    "@types/classnames": "2.2.5",
+    "@types/lodash": "^4.14.191",
+    "@types/styled-components": "^5.1.26",
+    "@types/webpack-env": "^1.16.0",
+    "classnames": "2.2.5",
+    "interactjs": "^1.10.17",
+    "lodash": "4.17.21",
+    "react-i18next": "13.5.0",
+    "react-popper": "1.0.0",
+    "react-remove-scroll": "2.4.3",
+    "react-router-dom": "5.3.4",
+    "react-select": "5.4.0",
+    "redux": "4.0.5",
+    "styled-components": "5.3.6"
+  },
+  "devDependencies": {
+    "react-redux": "8.1.2"
+  }
+}

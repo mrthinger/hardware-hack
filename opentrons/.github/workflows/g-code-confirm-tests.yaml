@@ -1,0 +1,61 @@
+name: "G-Code-Confirm"
+
+on:
+  # Run on any change to the api directory
+  pull_request:
+    paths:
+      - 'api/**'
+      - 'g-code-testing/**'
+      - 'Makefile'
+  push:
+    paths:
+      - 'api/**'
+      - 'g-code-testing/**'
+      - 'Makefile'
+      - '.github/workflows/g-code-confirm-tests.yaml'
+    branches:
+      - 'edge'
+      - 'release'
+      - '*hotfix*'
+  create:
+    tags:
+      - 'v*'
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.ref_name != 'edge' || github.run_id}}-${{ github.ref_type != 'tag' || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  confirm-g-code:
+    strategy:
+      matrix:
+        command: [
+          '2-modules',
+          'swift-smoke',
+          'swift-turbo',
+          'omega',
+          'fast'
+        ]
+    name: 'Confirm G-Code (${{ matrix.command }})'
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - uses: 'actions/checkout@v3'
+        with:
+          fetch-depth: 0
+      - uses: 'actions/setup-node@v3'
+        with:
+          node-version: '12'
+      - uses: 'actions/setup-python@v3'
+        with:
+          python-version: '3.10'
+      - uses: './.github/actions/python/setup'
+        with:
+          project: 'g-code-testing'
+
+      - name: "Verify no missing comparison files"
+        run: make -C g-code-testing check-for-missing-comparison-files
+
+      - name: 'Run & Compare to comparison files'
+        run: make -C g-code-testing test-g-code-${{ matrix.command }}

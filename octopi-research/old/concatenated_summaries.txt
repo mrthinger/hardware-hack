@@ -1,0 +1,3468 @@
+File: ./software/list_controllers.py
+Certainly! Let's break down what this Python script does:
+
+1. Import statements:
+   - `import serial`: This imports the pyserial library, which provides functionality for serial communication.
+   - `import serial.tools.list_ports`: This imports a specific module from pyserial that allows listing available serial ports.
+
+2. Print an empty line:
+   - `print('\n')`: This prints a newline character, creating a blank line in the output for better readability.
+
+3. Iterate through available serial ports:
+   - `for p in serial.tools.list_ports.comports():`: This line starts a loop that iterates through all available serial ports on the system.
+
+4. Print port information:
+   - `print(p.__dict__)`: For each port, this line prints the `__dict__` attribute of the port object. The `__dict__` attribute contains all the attributes of the object in a dictionary format.
+
+5. Print another empty line:
+   - `print('\n')`: This prints another newline character after each port's information, separating the output for different ports.
+
+Overall, this script does the following:
+
+1. It lists all available serial ports on the system.
+2. For each port, it prints out all the attributes and their values.
+3. The output is formatted with blank lines between each port's information for better readability.
+
+This script is useful for:
+- Identifying available serial ports on a system.
+- Debugging serial communication issues.
+- Gathering information about serial ports, such as device names, hardware information, and other attributes.
+
+The output will include details like the port name, description, hardware ID, and other relevant information for each serial port detected on the system.
+File: ./software/main_two_camera.py
+This Python script sets up and launches a graphical user interface (GUI) application using Qt. Here's a breakdown of what the code does:
+
+1. It sets the "QT_API" environment variable to "pyqt5", indicating that the PyQt5 library should be used for Qt bindings.
+
+2. It imports necessary modules:
+   - os and sys for system-related operations
+   - qtpy, which is a abstraction layer for different Qt Python bindings
+
+3. It imports specific Qt modules from qtpy:
+   - QtCore for core Qt functionality
+   - QtWidgets for GUI widgets
+   - QtGui for GUI-related elements
+
+4. It imports a custom module:
+   - control.gui_2cameras_async as gui
+   (Note: There are two other import statements that are commented out, suggesting alternative GUI modules that could be used)
+
+5. The main block of code:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings.
+   - Instantiates an OctopiGUI object from the imported gui module.
+   - Calls the show() method on the OctopiGUI instance to display the main window.
+   - Starts the application's event loop using app.exec_() and exits the script with the return value of this method when the application is closed.
+
+In summary, this script sets up and launches a Qt-based GUI application called OctopiGUI, which appears to be a custom interface for controlling two cameras asynchronously. The use of qtpy suggests that the application is designed to be compatible with different Qt Python bindings (like PyQt5, PySide2, etc.) without changing the code.
+File: ./software/main_two_camera_focus_tracking.py
+This Python script sets up and launches a graphical user interface (GUI) application. Here's a breakdown of what the code does:
+
+1. It sets the "QT_API" environment variable to "pyqt5", indicating that the PyQt5 library should be used for the Qt framework.
+
+2. It imports necessary modules:
+   - os and sys for system-related operations
+   - qtpy, which is a abstraction layer for various Qt Python bindings
+
+3. It imports specific Qt modules from qtpy:
+   - QtCore, QtWidgets, and QtGui, which provide core functionality, widget classes, and GUI-related tools respectively
+
+4. It imports a custom module for the GUI:
+   - control.gui_2cameras_async_focus_tracking as gui
+   (Note: There are other import statements commented out, suggesting alternative GUI modules that could be used)
+
+5. The main block of the script:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings
+   - Instantiates the main window of the application (OctopiGUI class from the imported gui module)
+   - Shows the main window
+   - Starts the application's event loop with app.exec_() and uses sys.exit() to ensure a clean exit when the application is closed
+
+In summary, this script sets up and launches a Qt-based GUI application, likely for controlling and viewing output from two cameras with asynchronous operation and focus tracking capabilities, as suggested by the imported gui module name.
+File: ./software/main_platereader.py
+This Python script sets up and launches a graphical user interface (GUI) for a plate reader application. Here's a breakdown of what the code does:
+
+1. It sets the QT_API environment variable to "pyqt5".
+
+2. It imports necessary libraries:
+   - Standard Python libraries: os, sys, argparse
+   - Qt libraries via qtpy (a abstraction layer for different Qt bindings)
+
+3. It imports a custom module: control.gui_platereader as gui
+
+4. It sets up an argument parser to allow running the application in simulation mode:
+   - Adds a "--simulation" flag that can be used when launching the script
+
+5. In the main block:
+   - It creates a QApplication instance, which is necessary for any Qt application.
+   
+   - It checks if the "--simulation" flag was used:
+     - If yes, it creates an instance of OctopiGUI (from the gui module) with is_simulation=True
+     - If no, it creates a regular instance of OctopiGUI
+
+   - It shows the GUI window
+
+   - It starts the Qt event loop with app.exec_() and uses sys.exit() to ensure a clean exit when the application is closed
+
+In summary, this script provides a way to launch a GUI application for a plate reader, with an option to run in simulation mode. The actual implementation of the GUI and its functionality would be in the imported gui module, specifically in the OctopiGUI class.
+File: ./software/main_2cameras_sync.py
+This Python file sets up and launches a graphical user interface (GUI) application. Here's a breakdown of what the code does:
+
+1. Import necessary libraries:
+   - Standard libraries: os, sys, argparse
+   - Qt libraries: qtpy and its submodules
+
+2. Set the QT_API environment variable to "pyqt5".
+
+3. Import a specific GUI module (gui_2cameras_sync) from the control package.
+
+4. Set up an argument parser to allow running the application in simulation mode.
+
+5. Define the main execution block:
+   a. Create a QApplication instance.
+   b. Set the application style to 'Fusion'.
+   c. Create an instance of the OctopiGUI class:
+      - If the --simulation flag is provided, it creates the GUI in simulation mode.
+      - Otherwise, it creates the GUI in normal mode.
+   d. Display the GUI window.
+   e. Start the application's event loop and exit the script when the GUI is closed.
+
+Key points:
+
+- The script uses qtpy, which is a abstraction layer for various Qt Python bindings.
+- It appears to be part of a larger project called "Octopi", likely related to microscopy or imaging.
+- The GUI can be run in two modes: normal and simulation.
+- The specific GUI implementation (gui_2cameras_sync) is imported from a custom module.
+- There are commented-out import statements for alternative GUI implementations (gui_2cameras_async and gui_tiscamera), suggesting that the application can use different camera setups.
+
+Overall, this script serves as the entry point for launching a Qt-based GUI application, possibly for controlling cameras or microscopy equipment, with the option to run in a simulated environment.
+File: ./software/main_6060.py
+This Python script creates a graphical user interface (GUI) for a microscope control application. Here's a breakdown of what the script does:
+
+1. Imports necessary libraries and modules.
+2. Sets the QT_API environment variable to "pyqt5".
+3. Imports Qt libraries using qtpy for cross-compatibility between PyQt and PySide.
+4. Imports custom modules for GUI control and widgets.
+5. Sets up an argument parser to allow running the GUI in simulation mode.
+6. Defines two functions:
+   - `show_config()`: Displays a configuration editor for microscope settings.
+   - `show_acq_config()`: Displays a configuration editor for acquisition settings.
+7. In the main execution block:
+   - Checks for the existence of configuration files.
+   - Creates a QApplication instance.
+   - Sets the application style to 'Fusion'.
+   - Creates the main GUI window (OctopiGUI) with or without simulation based on the command-line argument.
+   - Creates a menu bar with a "File" menu.
+   - Adds an "Acquisition Settings" action to the File menu.
+   - If not using legacy configuration, adds a "Microscope Settings" action to the File menu.
+   - Connects the menu actions to their respective configuration display functions.
+   - Displays the main window.
+   - Starts the application event loop.
+
+The script allows users to:
+- Run the application in simulation mode if specified.
+- Access and modify acquisition settings through a menu option.
+- Access and modify microscope settings through a menu option (if not using legacy configuration).
+- Interact with the main OctopiGUI interface for microscope control.
+
+The script uses a configuration parser to handle settings and provides backwards compatibility for legacy configurations. It also uses custom widgets for configuration editing.
+File: ./software/main_tiscamera_DZK250.py
+This Python script sets up and launches a graphical user interface (GUI) application using Qt framework. Here's a breakdown of what the script does:
+
+1. Import necessary modules:
+   - os and sys for system-related operations
+   - qtpy for Qt compatibility layer
+
+2. Set the QT_API environment variable to "pyqt5", indicating that the application should use PyQt5 as the Qt binding.
+
+3. Import Qt-specific modules from qtpy:
+   - QtCore for core Qt functionality
+   - QtWidgets for GUI widgets
+   - QtGui for GUI-related classes
+
+4. Import a custom module named "gui_tiscamera_DZK250" from the "control" package. This module likely contains the main GUI implementation.
+
+5. The main execution block (if __name__ == "__main__":) does the following:
+   a. Creates a QApplication instance, which manages the GUI application's control flow and main settings.
+   b. Instantiates an OctopiGUI object from the imported gui module, which is presumably the main window of the application.
+   c. Calls the show() method on the OctopiGUI instance to display the main window.
+   d. Enters the application's main event loop using app.exec_() and exits the script with the return value of this method when the application is closed.
+
+In summary, this script sets up the environment for a Qt-based GUI application, creates the main application window using a custom GUI class (OctopiGUI), and runs the application's event loop. The actual functionality and appearance of the GUI would be defined in the imported gui_tiscamera_DZK250 module.
+File: ./software/main_PDAF_calibration.py
+This Python file sets up and launches a graphical user interface (GUI) application using Qt framework. Here's a breakdown of what the code does:
+
+1. Import necessary libraries:
+   - os and sys for system-related operations
+   - qtpy for Qt compatibility layer
+
+2. Set the QT_API environment variable to "pyqt5", indicating that the application should use PyQt5 as the Qt implementation.
+
+3. Import Qt-specific modules from qtpy:
+   - QtCore for core Qt functionality
+   - QtWidgets for GUI widgets
+   - QtGui for GUI-related classes
+
+4. Import a custom module named "gui_PDAF_calibration" from the "control" package and alias it as "gui".
+
+5. The main block of code (under `if __name__ == "__main__":`) does the following:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings.
+   - Instantiates an OctopiGUI object from the imported gui module, with `is_simulation` set to True.
+   - Shows the GUI window.
+   - Starts the application's event loop using `app.exec_()` and exits the script with the return value of the event loop.
+
+In summary, this script sets up and launches a GUI application for PDAF (Probably Density Approximation Filter) calibration, likely related to the Octopi project. The GUI is created using Qt framework, specifically PyQt5, and the main window is implemented in the OctopiGUI class from the gui_PDAF_calibration module. The application is run in simulation mode, as indicated by the `is_simulation=True` parameter.
+File: ./software/main_tiscamera_camera_only.py
+This Python script sets up and launches a graphical user interface (GUI) application using Qt framework. Here's a breakdown of what the code does:
+
+1. Import necessary modules:
+   - os and sys for system-related operations
+   - qtpy for Qt compatibility layer
+
+2. Set the QT_API environment variable to "pyqt5", indicating that the application should use PyQt5 as the Qt binding.
+
+3. Import Qt-specific modules from qtpy:
+   - QtCore for core Qt functionality
+   - QtWidgets for GUI widgets
+   - QtGui for GUI-related elements
+
+4. Import a custom module named "gui_camera_only_tiscamera" from the "control" package and alias it as "gui".
+
+5. The main block of code (under `if __name__ == "__main__":`) does the following:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings.
+   - Instantiates an OctopiGUI object from the imported gui module, which is likely the main window of the application.
+   - Calls the show() method on the OctopiGUI instance to display the main window.
+   - Starts the application's event loop using app.exec_() and exits the script with the return value of the event loop using sys.exit().
+
+In summary, this script sets up and launches a Qt-based GUI application, specifically designed for camera control (likely using a TIS camera, based on the module name). The main functionality of the application is implemented in the OctopiGUI class, which is defined in the imported gui module.
+File: ./software/toupcam_tests.py
+This Python script demonstrates the usage of a camera control library, likely for a specific camera model (ITR3CMOS26000KMA). Here's a breakdown of what the script does:
+
+1. Imports necessary modules, including a custom camera control library.
+
+2. Defines the camera model and retrieves its serial number.
+
+3. Initializes a Camera object with the serial number and some configuration parameters.
+
+4. Opens the camera connection.
+
+5. Sets the camera's gain mode to 'HCG' (High Conversion Gain).
+
+6. Sets the initial resolution to 2000x2000 pixels.
+
+7. Configures the camera for continuous acquisition and starts streaming.
+
+8. Waits for 0.5 seconds.
+
+9. Changes the resolution to a different preset (second item in the resolution list).
+
+10. Waits for 0.5 seconds.
+
+11. Sets the pixel format to 'MONO16' (16-bit monochrome).
+
+12. Waits for 0.5 seconds.
+
+13. Prints the auto white balance ratios.
+
+14. Waits for 0.5 seconds.
+
+15. Sets a Region of Interest (ROI) to a small 32x32 pixel area.
+
+16. Waits for 0.5 seconds.
+
+17. Reads a frame from the camera and prints its information (data, shape, and data type).
+
+18. Changes the pixel format to 'MONO8' (8-bit monochrome).
+
+19. Waits for 0.5 seconds.
+
+20. Reads another frame and prints its information.
+
+21. Waits for 1 second.
+
+22. Reads one more frame and prints its information.
+
+23. Resets the ROI to full frame (0,0,0,0).
+
+24. Waits for 0.5 seconds.
+
+25. Sets a new ROI (2500,2500,3000,3000).
+
+26. Waits for 1 second.
+
+27. Reads a final frame and prints its information.
+
+28. Closes the camera connection.
+
+Throughout the script, various camera settings are adjusted, and frames are captured to demonstrate different configurations. The script also includes several pauses (using time.sleep()) to allow time for the camera to apply changes between operations.
+File: ./software/main_camera_only.py
+This Python script sets up and launches a graphical user interface (GUI) application using Qt. Here's a breakdown of what the code does:
+
+1. It sets the "QT_API" environment variable to "pyqt5", indicating that the PyQt5 library should be used for Qt bindings.
+
+2. It imports necessary modules:
+   - os and sys for system-related operations
+   - qtpy, which is a abstraction layer for different Qt Python bindings
+
+3. It imports specific Qt modules from qtpy:
+   - QtCore, QtWidgets, and QtGui, which provide core Qt functionality, widget classes, and GUI-related classes respectively
+
+4. It imports a custom module for the GUI:
+   - control.gui_camera_only is imported as gui
+   - There are two other import statements that are commented out, suggesting alternative GUI modules that could be used
+
+5. The main execution block:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings
+   - Instantiates an OctopiGUI object from the imported gui module
+   - Calls the show() method on the OctopiGUI instance to display the main window
+   - Starts the application's event loop using app.exec_() and exits the script with the return value of this method
+
+In summary, this script sets up the environment for a Qt-based GUI application, likely for camera control (based on the module names), creates the main application window, and runs the event loop. The actual functionality of the GUI would be defined in the imported gui module, specifically in the OctopiGUI class.
+File: ./software/main_two_cameras_daheng_tis.py
+This Python script sets up and launches a graphical user interface (GUI) application using Qt framework. Here's a breakdown of what the script does:
+
+1. Sets the QT_API environment variable to "pyqt5", indicating that the PyQt5 binding should be used for Qt.
+
+2. Imports necessary modules:
+   - os and sys for system-related operations
+   - qtpy, which is a abstraction layer for different Qt Python bindings
+
+3. Imports specific Qt modules from qtpy:
+   - QtCore, QtWidgets, and QtGui, which provide core Qt functionality, widget classes, and GUI-related classes respectively
+
+4. Imports a custom module for the GUI:
+   - The script has multiple import statements for different GUI modules, but only one is uncommented (gui_2cameras_daheng_tis). This suggests that the application can be configured to use different camera setups or interfaces.
+
+5. Defines the main execution block:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings
+   - Instantiates the main window of the application (OctopiGUI class from the imported gui module)
+   - Shows the main window
+   - Starts the application's event loop and exits the script when the application is closed
+
+In summary, this script sets up and launches a Qt-based GUI application, likely for controlling and interfacing with cameras (based on the imported module names). The application seems to be part of a larger project called "Octopi", possibly related to microscopy or image capture, given the focus on camera control.
+File: ./software/main_usbspectrometer.py
+This Python script sets up and launches a graphical user interface (GUI) application for a USB spectrometer. Here's a breakdown of what the code does:
+
+1. It sets the QT_API environment variable to "pyqt5".
+
+2. It imports necessary libraries:
+   - Standard Python libraries: os, sys, argparse
+   - Qt libraries through qtpy (a abstraction layer for different Qt bindings)
+
+3. It imports a custom module: control.gui_usbspectrometer as gui
+
+4. It sets up an argument parser to allow running the application in simulation mode:
+   - Adds a "--simulation" flag that can be used when launching the script
+
+5. In the main block:
+   - It creates a QApplication instance, which is necessary for any Qt application.
+   - It sets the application style to 'Fusion'.
+   - It checks if the simulation flag was used:
+     - If yes, it creates an instance of OctopiGUI with is_simulation=True
+     - If no, it creates a regular instance of OctopiGUI
+   - It shows the main window.
+   - It starts the application's event loop with app.exec_() and uses sys.exit() to ensure a clean exit when the application is closed.
+
+This script serves as the entry point for the USB spectrometer application. It handles command-line arguments, sets up the Qt environment, and launches the main application window. The actual implementation of the OctopiGUI class is in the imported gui module, which likely contains the bulk of the application's functionality.
+
+The simulation mode option allows the application to run with simulated hardware, which can be useful for testing or demonstration purposes when the actual USB spectrometer hardware is not available.
+File: ./software/main_malaria.py
+This Python script creates a graphical user interface (GUI) for a microscope control application. Here's a breakdown of what the script does:
+
+1. Imports necessary libraries and modules.
+2. Sets the QT_API environment variable to "pyqt5".
+3. Defines command-line arguments for running the GUI in simulation mode.
+4. Defines functions to show configuration dialogs:
+   - `show_config()`: Displays microscope settings.
+   - `show_acq_config()`: Displays acquisition settings.
+
+5. In the main execution block:
+   - Checks for the existence of configuration files.
+   - Initializes the QApplication.
+   - Creates the main GUI window (OctopiGUI).
+   - Sets up the menu bar with "File" menu:
+     - Adds "Acquisition Settings" action.
+     - Adds "Microscope Settings" action if not using legacy configuration.
+   - Displays the main window and starts the application event loop.
+
+Key features:
+- Supports both simulated and real hardware modes.
+- Uses configuration files for settings.
+- Provides a graphical interface for microscope control.
+- Allows users to edit acquisition and microscope settings through separate dialogs.
+- Uses Qt for the GUI framework.
+- Implements a menu bar for easy access to settings.
+- Handles legacy configuration scenarios.
+
+The script is designed to be the entry point for running the microscope control application, setting up the necessary GUI components and configuration options before launching the main interface.
+File: ./software/main_volumeric_imaging.py
+This Python script sets up and launches a graphical user interface (GUI) application. Here's a breakdown of what the code does:
+
+1. It sets the "QT_API" environment variable to "pyqt5", indicating that the PyQt5 library should be used for the Qt framework.
+
+2. It imports necessary modules:
+   - os and sys for system-related operations
+   - qtpy, which is a abstraction layer for various Qt Python bindings
+
+3. It imports specific Qt modules from qtpy:
+   - QtCore, QtWidgets, and QtGui, which provide core functionality, widget classes, and GUI-related tools respectively
+
+4. It imports a custom module:
+   - control.gui_volumetric_imaging as gui
+   (There are two other import statements that are commented out, suggesting alternative GUI modules that could be used)
+
+5. The main block of code:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings
+   - Instantiates an OctopiGUI object from the imported gui module
+   - Calls the show() method on the OctopiGUI instance to display the main window
+   - Starts the application's event loop using app.exec_() and exits the script when the event loop is terminated
+
+In summary, this script sets up and launches a Qt-based GUI application, likely for volumetric imaging control (based on the imported module name). The actual functionality and appearance of the GUI would be defined in the imported gui module, specifically in the OctopiGUI class.
+File: ./software/main_displacement_measurement.py
+This Python script sets up and launches a graphical user interface (GUI) application. Here's a breakdown of what the code does:
+
+1. It imports necessary libraries:
+   - Standard libraries: os, sys, argparse
+   - Qt libraries: qtpy and its submodules
+
+2. It sets the QT_API environment variable to "pyqt5", indicating that PyQt5 should be used as the Qt binding.
+
+3. It imports a custom module: control.gui_displacement_measurement as gui
+
+4. It sets up an argument parser to allow running the application in simulation mode:
+   - Adds a "--simulation" flag that can be used when launching the application
+
+5. In the main block:
+   - It creates a QApplication instance, which is necessary for any Qt application.
+   - It sets the application style to 'Fusion', which is a modern-looking Qt style.
+
+6. It then creates the main window:
+   - If the "--simulation" flag is used, it creates an OctopiGUI instance with is_simulation=True
+   - Otherwise, it creates a regular OctopiGUI instance
+
+7. It shows the main window.
+
+8. Finally, it starts the application's event loop with app.exec_() and uses sys.exit() to ensure a clean exit when the application is closed.
+
+This script appears to be the entry point for a GUI application, possibly for some kind of displacement measurement system (given the name of the imported gui module). The simulation flag suggests that the application can run in a simulated mode, likely for testing or demonstration purposes without requiring actual hardware.
+File: ./software/main_PDAF_demo.py
+This Python file sets up and launches a graphical user interface (GUI) application using Qt. Here's a breakdown of what the code does:
+
+1. Import necessary libraries:
+   - os and sys for system-related operations
+   - qtpy for Qt bindings
+
+2. Set the QT_API environment variable to "pyqt5", which tells qtpy to use PyQt5 as the Qt binding.
+
+3. Import specific Qt modules from qtpy:
+   - QtCore for core Qt functionality
+   - QtWidgets for GUI widgets
+   - QtGui for GUI-related classes
+
+4. Import a custom module named "gui_PDAF_demo" from the "control" package, aliasing it as "gui".
+
+5. The main block of code (under `if __name__ == "__main__":`) does the following:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings.
+   - Instantiates an OctopiGUI object from the imported gui module, with `is_simulation` set to True.
+   - Shows the GUI window.
+   - Starts the application's event loop using `app.exec_()` and exits the script with the return value of the event loop.
+
+In summary, this script sets up and launches a GUI application called OctopiGUI, which appears to be a demonstration or simulation related to PDAF (Particle Distribution Approximation Filter). The GUI is created using Qt (specifically PyQt5) and uses a custom module for the main application logic.
+File: ./software/main_simulation.py
+This Python script sets up and launches a graphical user interface (GUI) application using Qt. Here's a breakdown of what the code does:
+
+1. It sets the "QT_API" environment variable to "pyqt5", indicating that the PyQt5 library should be used for Qt bindings.
+
+2. It imports necessary modules:
+   - os and sys for system-related operations
+   - qtpy, which is a abstraction layer for different Qt Python bindings
+
+3. It imports specific Qt modules from qtpy:
+   - QtCore for core Qt functionality
+   - QtWidgets for GUI widgets
+   - QtGui for GUI-related elements
+
+4. It imports a custom module:
+   - control.gui_simulation as gui
+   (There are two other import statements commented out, suggesting alternative GUI modules that could be used)
+
+5. The main block of code:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings.
+   - Instantiates an OctopiGUI object from the imported gui module.
+   - Calls the show() method on the OctopiGUI instance to display the main window.
+   - Starts the application's event loop using app.exec_() and exits the script when the event loop is terminated.
+
+In summary, this script sets up and launches a Qt-based GUI application called OctopiGUI, likely a custom interface for controlling or simulating something related to "Octopi" (possibly a microscope or imaging system, given the commented-out camera-related imports). The actual functionality of the GUI would be defined in the imported gui module.
+File: ./software/main_hcs.py
+This Python script creates a graphical user interface (GUI) for a microscope control application. Here's a breakdown of what the script does:
+
+1. Imports necessary libraries and modules.
+2. Sets up command-line argument parsing for a simulation mode.
+3. Defines functions for showing configuration dialogs:
+   - `show_config()`: Displays microscope settings.
+   - `show_acq_config()`: Displays acquisition settings.
+
+4. In the main execution block:
+   - Checks for configuration files and sets up a ConfigParser.
+   - Creates a QApplication instance.
+   - Initializes the main GUI window (OctopiGUI).
+   - Sets up a menu bar with various options:
+     - "Acquisition Settings"
+     - "Microscope Settings" (if not using legacy configuration)
+     - "Camera Settings" (if available)
+     - "Camera Settings (Focus Camera)" (if available)
+
+5. The script handles different configurations:
+   - Checks for the existence of configuration files.
+   - Supports a legacy configuration mode.
+   - Allows running in simulation mode (with simulated hardware).
+
+6. It creates actions for different settings dialogs:
+   - Acquisition settings
+   - Microscope settings (if not in legacy mode)
+   - Camera settings (if available)
+   - Focus camera settings (if available)
+
+7. These actions are added to a "File" menu in the main window's menu bar.
+
+8. Finally, it shows the main window and starts the application's event loop.
+
+The script is designed to be flexible, accommodating different configurations and optional components (like camera settings). It provides a user-friendly interface for controlling a microscope system, allowing users to adjust various settings through different dialog windows accessible from the menu bar.
+File: ./software/main_motion_only.py
+This Python script sets up and launches a graphical user interface (GUI) application using Qt. Here's a breakdown of what the code does:
+
+1. It sets the "QT_API" environment variable to "pyqt5", indicating that the PyQt5 library should be used for Qt bindings.
+
+2. It imports necessary modules:
+   - os and sys for system-related operations
+   - qtpy, which is a abstraction layer for different Qt Python bindings
+
+3. It imports specific Qt modules from qtpy:
+   - QtCore, QtWidgets, and QtGui, which provide core Qt functionality, widget classes, and GUI-related classes respectively
+
+4. It imports a custom module for the GUI:
+   - control.gui_motion_only is imported as gui
+   - There are two other import statements that are commented out, suggesting alternative GUI modules that could be used
+
+5. The main block of the script:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings
+   - Instantiates the main window of the application (OctopiGUI class from the imported gui module)
+   - Shows the main window
+   - Starts the application's event loop using app.exec_() and exits the script when the event loop is terminated
+
+In summary, this script sets up and launches a Qt-based GUI application, likely for controlling some kind of system (possibly related to cameras or motion, based on the import statements). The specific functionality of the GUI would be defined in the imported gui module (control.gui_motion_only in this case).
+File: ./software/main_tiscamera.py
+This Python script sets up and launches a graphical user interface (GUI) application using Qt. Here's a breakdown of what the code does:
+
+1. It sets the "QT_API" environment variable to "pyqt5", indicating that the PyQt5 library should be used for Qt bindings.
+
+2. It imports necessary modules:
+   - os and sys for system-related operations
+   - qtpy, which is a abstraction layer for different Qt Python bindings
+
+3. It imports specific Qt modules from qtpy:
+   - QtCore, QtWidgets, and QtGui, which provide core Qt functionality, widget classes, and GUI-related classes respectively
+
+4. It imports a custom module for the GUI:
+   - control.gui_camera_only is imported as gui
+   - There are two other import statements that are commented out, suggesting alternative GUI modules that could be used
+
+5. The main execution block:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings
+   - Instantiates an OctopiGUI object from the imported gui module
+   - Calls the show() method on the OctopiGUI instance to display the main window
+   - Starts the application's event loop using app.exec_() and exits the script with the return value of this method
+
+In summary, this script sets up the environment for a Qt-based GUI application, likely for camera control (based on the module names), creates the main application window, and runs the event loop. The actual functionality of the GUI would be defined in the imported gui module, specifically in the OctopiGUI class.
+File: ./software/main_tiscamera_simulation.py
+This Python script sets up and launches a graphical user interface (GUI) application. Here's a breakdown of what the code does:
+
+1. It sets the "QT_API" environment variable to "pyqt5", indicating that the PyQt5 library should be used for the Qt framework.
+
+2. It imports necessary modules:
+   - os and sys for system-related operations
+   - qtpy, which is a abstraction layer for various Qt Python bindings
+
+3. It imports specific Qt modules from qtpy:
+   - QtCore, QtWidgets, and QtGui, which provide core functionality, widget classes, and GUI-related classes respectively
+
+4. It imports a custom module:
+   - control.gui_tiscamera_simulation as gui
+   (There are two other import statements commented out, suggesting alternative modules that could be used)
+
+5. The main block of code:
+   - Creates a QApplication instance, which manages the GUI application's control flow and main settings
+   - Instantiates an OctopiGUI object from the imported gui module
+   - Calls the show() method on the OctopiGUI instance to display the main window
+   - Starts the application's event loop using app.exec_() and exits the script with the return value of this method
+
+In summary, this script sets up and launches a GUI application called OctopiGUI, which is likely a custom interface for controlling or simulating a camera system (based on the module name). The use of Qt through qtpy suggests that this is a cross-platform application that can run on various operating systems.
+File: ./software/tools/script_create_configurations_xml.py
+This Python script creates an XML file that defines various imaging modes for a camera or imaging system. Here's a breakdown of what the script does:
+
+1. It imports the etree module from lxml library as ET.
+
+2. Creates a root element called 'modes'.
+
+3. Defines seven different imaging modes (mode_1 to mode_7) as sub-elements of the root element.
+
+4. For each mode, it sets several attributes:
+   - ID: A unique identifier for the mode
+   - Name: A descriptive name for the mode
+   - ExposureTime: The exposure time setting
+   - AnalogGain: The analog gain setting
+   - IlluminationSource: An identifier for the light source
+   - IlluminationIntensity: The intensity of the illumination
+   - CameraSN: Camera serial number (left blank in this case)
+   - ZOffset: Z-axis offset
+   - PixelFormat: The pixel format (set to 'default')
+   - _PixelFormat_options: A list of available pixel format options
+
+5. The modes defined are:
+   - BF LED matrix full
+   - BF LED matrix left half
+   - BF LED matrix right half
+   - BF LED matrix color PDAF
+   - Fluorescence 405 nm Ex
+   - Fluorescence 488 nm Ex
+   - Fluorescence 638 nm Ex
+
+6. After defining all modes, it creates an ElementTree object from the root element.
+
+7. Finally, it writes the XML tree to a file named 'configurations.xml' with UTF-8 encoding, including an XML declaration, and with pretty printing enabled for better readability.
+
+This script essentially creates a configuration file that could be used to set up different imaging modes for a microscope or similar imaging device, allowing for easy switching between different illumination and camera settings.
+File: ./software/main.py
+This Python file sets up and launches a graphical user interface (GUI) application. Here's a breakdown of what the code does:
+
+1. It imports necessary libraries:
+   - Standard libraries: os, sys, argparse
+   - Qt libraries using qtpy (a abstraction layer for different Qt bindings)
+
+2. It sets the QT_API environment variable to "pyqt5", indicating the use of PyQt5 for the Qt bindings.
+
+3. It imports specific Qt modules (QtCore, QtWidgets, QtGui) using qtpy.
+
+4. It imports a custom module 'gui' from the 'control' package. There are two other import statements for different GUI modules that are commented out, suggesting alternative GUI implementations.
+
+5. It sets up an argument parser to allow running the GUI in simulation mode:
+   - Adds a "--simulation" flag that can be used when running the script.
+
+6. The main execution block:
+   - Creates a QApplication instance.
+   - Sets the application style to 'Fusion'.
+   - Checks if the simulation flag is set:
+     - If true, it creates an instance of OctopiGUI with is_simulation=True.
+     - If false, it creates a regular instance of OctopiGUI.
+   - Shows the GUI window.
+   - Starts the Qt event loop and exits the application when the loop is finished.
+
+In summary, this script sets up and launches a GUI application called OctopiGUI, with the option to run it in simulation mode. It uses Qt for the GUI framework and allows for easy switching between different GUI implementations (as seen in the commented import statements).
+File: ./software/tools/script_stitch_slide.py
+This Python script is designed to stitch together microscopy images from a slide. Here's a breakdown of its functionality:
+
+1. Imports necessary libraries for file handling, XML parsing, image processing, and custom stitching functions.
+
+2. Defines several helper functions:
+   - `get_pixel_size`: Calculates the pixel size based on microscope parameters.
+   - `get_overlap`: Computes the overlap percentage between adjacent images.
+   - `get_time_indices`: Retrieves the number of time points in the dataset.
+   - `get_channels`: Extracts channel names from the configuration XML file.
+   - `get_z_indices`: Retrieves the number of Z-stack layers.
+   - `get_coord_names`: Extracts coordinate names from image filenames.
+
+3. The main stitching function `stitch_slide_from_path`:
+   - Collects necessary information about the slide (time indices, Z-indices, channels, coordinates, overlap).
+   - Calls the `stitch_slide` function (imported from `stitcher` module) to perform the actual stitching.
+
+4. Includes a `print_usage` function to display help information and usage instructions.
+
+5. The script's main execution block:
+   - Parses command-line arguments for slide path and optional parameters.
+   - Handles help requests and parameter validation.
+   - Calls `stitch_slide_from_path` with the provided arguments.
+
+Overall, this script is designed to be run from the command line, taking a slide folder path as input along with optional microscope parameters. It then processes the images in the folder, calculating necessary information, and performs image stitching to create a composite image of the entire slide.
+File: ./software/tools/list_cameras.py
+This Python script is designed to interact with and enumerate devices using the Galaxy SDK (GxIAPI) through the `gxipy` module. Here's a detailed breakdown of what the script does:
+
+1. Import Statement:
+   - It imports the `gxipy` module from the `control` package and aliases it as `gx`.
+
+2. Main Function:
+   The `main()` function is defined, which contains the primary logic of the script:
+
+   a. Device Manager Creation:
+      - It creates a `DeviceManager` object, which is used to manage and interact with connected devices.
+
+   b. Device Enumeration:
+      - The `update_device_list()` method is called on the device manager.
+      - This method returns two values:
+        - `dev_num`: The number of devices found.
+        - `dev_info_list`: A list containing information about each detected device.
+
+   c. Error Handling:
+      - If no devices are found (`dev_num` is 0), it prints a message and exits the function.
+
+   d. Device Information Display:
+      - If devices are found, it iterates through the `dev_info_list`.
+      - For each device, it prints the device information.
+
+3. Script Execution:
+   - The `if __name__ == "__main__":` block ensures that the `main()` function is only executed if the script is run directly (not imported as a module).
+
+4. Version Information:
+   - A comment at the top of the file indicates the version of the script or possibly the SDK version: `1.0.1808.9101`.
+
+In summary, this script is designed to detect and list information about devices (likely cameras or imaging devices) that are compatible with the Galaxy SDK. It's useful for enumerating connected devices and displaying their basic information, which can be helpful in setup, debugging, or device selection processes in a larger application.
+File: ./software/tools/script_create_desktop_shortcut.py
+This Python script creates desktop shortcuts for a program called "Squid" on a Linux system. Here's a detailed breakdown of its functionality:
+
+1. The script imports necessary modules: `os` for file and path operations, and `stat` for setting file permissions.
+
+2. It defines two main functions:
+   - `create_desktop_shortcut_simulation()`: Creates a shortcut for running the program in simulation mode.
+   - `create_desktop_shortcut()`: Creates a shortcut for running the program in normal mode.
+
+3. Both shortcut creation functions:
+   - Generate a suffix for the shortcut name based on the script name.
+   - Set the icon path.
+   - Create the shortcut content, including the program name, icon path, and execution command.
+   - Determine the desktop path for the shortcut.
+   - Write the shortcut content to a .desktop file.
+   - Set the file permissions to make it executable.
+
+4. The `main()` function:
+   - Prompts the user for the directory path (defaulting to the current directory if left blank).
+   - Asks for the main script name.
+   - Inquires if the shortcut should be for simulation mode.
+   - Calls the appropriate shortcut creation function based on the simulation mode choice.
+   - Prints the path of the created shortcut.
+
+5. The script uses an `if __name__ == '__main__':` block to ensure the `main()` function is only called when the script is run directly.
+
+6. The shortcuts created will open a GNOME terminal, navigate to the specified directory, and run the Python script with or without the `--simulation` flag.
+
+7. The script handles different naming conventions for the shortcuts based on whether it's the main script or a variant (indicated by a suffix in the script name).
+
+This script provides a convenient way for users to create desktop shortcuts for different versions or modes of the "Squid" program, making it easier to launch from the desktop environment.
+File: ./software/tools/script_create_zarr_from_acquisition.py
+This Python script performs several tasks related to processing and converting microscopy image data. Here's a breakdown of its main functionalities:
+
+1. Imports necessary libraries for XML parsing, JSON handling, file operations, image processing, and data manipulation.
+
+2. Defines several functions:
+
+   a. `read_configurations_used`: Reads an XML file to extract configuration information.
+   
+   b. `get_dimensions_for_dataset`: Retrieves dimensional information about the dataset from JSON and XML files.
+   
+   c. `create_dask_array_for_single_fov`: Creates a Dask array for a single field of view (FOV) from image files.
+   
+   d. `create_zarr_for_single_fov`: Converts a single FOV to OME-Zarr format.
+
+3. The main execution block:
+   - Parses command-line arguments for input and output paths, FOV coordinates, sensor and objective parameters, and optional z and t step overrides.
+   - Calls `create_zarr_for_single_fov` with the provided arguments to convert the data.
+   - Prints a success message and instructions for viewing the result using napari.
+
+Key features:
+
+- Handles multi-dimensional image data (time, channels, z-stacks, x, y).
+- Supports reading various image file formats.
+- Uses Dask for lazy loading and processing of large datasets.
+- Converts data to OME-Zarr format, which is suitable for big image data.
+- Allows for flexible input parameters, including sensor pixel size, objective magnification, and selective processing of z-stacks and time points.
+- Provides error handling for incorrect input arguments and out-of-bounds indices.
+
+This script is designed to work with microscopy data, particularly for converting large, multi-dimensional datasets into a format (OME-Zarr) that's more suitable for visualization and further analysis.
+File: ./software/main_toupcam_IMX571.py
+This Python script sets up and launches a graphical user interface (GUI) application. Here's a breakdown of what the code does:
+
+1. It imports necessary libraries:
+   - Standard libraries: os, sys, argparse
+   - Qt libraries through qtpy (a abstraction layer for different Qt bindings)
+
+2. It sets the QT_API environment variable to "pyqt5", indicating the use of PyQt5 for the Qt bindings.
+
+3. It imports specific Qt modules (QtCore, QtWidgets, QtGui) using qtpy.
+
+4. It imports a custom module for the GUI (gui_toupcam_IMX571). There are two other import statements that are commented out, suggesting alternative GUI modules that could be used.
+
+5. It sets up an argument parser to allow running the application in simulation mode:
+   - Adds a "--simulation" flag that can be passed when running the script
+
+6. The main execution block:
+   - Creates a QApplication instance
+   - Sets the application style to 'Fusion'
+   - Initializes the main window (OctopiGUI):
+     - If the --simulation flag is used, it initializes with is_simulation=True
+     - Otherwise, it initializes with default settings
+   - Shows the main window
+   - Starts the application's event loop
+
+7. The script is designed to be run as the main program (checked with if __name__ == "__main__":)
+
+8. When the application closes, it uses sys.exit(app.exec_()) to ensure a clean exit and return the exit code to the system.
+
+This script appears to be the entry point for a GUI application, possibly for controlling cameras (based on the import statements and naming). It provides flexibility to run in a simulation mode and uses Qt for the graphical interface, with the specific GUI implementation imported from a separate module.
+File: ./software/tools/script_flip_i_indices.py
+This Python script is designed to invert the y-indices of image files and coordinate data within a slide folder structure. Here's a breakdown of its functionality:
+
+1. The script imports necessary modules and functions from other files.
+
+2. It defines several functions:
+
+   a. `get_ny(slide_path)`: Reads the 'Ny' value from an acquisition parameters JSON file.
+
+   b. `get_inverted_y_filepath(filepath, channel_name, Ny)`: Generates a new filepath with an inverted y-index for a given image file.
+
+   c. `invert_y_in_folder(fovs_path, channel_names, Ny)`: Inverts y-indices for all image files in a folder for specified channels.
+
+   d. `invert_y_in_slide(slide_path)`: Main function that processes an entire slide folder, including:
+      - Inverting y-indices for image files in all time index subfolders
+      - Updating the coordinates.csv file in each time index subfolder
+
+3. The script's main execution:
+   - Checks if a slide folder path is provided as a command-line argument
+   - Calls `invert_y_in_slide()` with the provided path
+   - Prints a confirmation message
+
+Key operations:
+- Reads JSON files for acquisition parameters
+- Manipulates file names and paths
+- Renames files to invert y-indices
+- Updates CSV files containing coordinate information
+- Handles multiple channels and time indices within a slide folder structure
+
+The script is designed to work with a specific folder structure and naming convention for microscopy image data, likely from a slide-based imaging system.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/sample/GxSingleCamMono/GxSingleCamMono.py
+This Python script demonstrates how to acquire monochrome images continuously from a camera using the gxipy library and display them using the PIL (Python Imaging Library). Here's a breakdown of what the script does:
+
+1. Imports required libraries: gxipy for camera control and PIL for image handling.
+
+2. Defines a main() function that contains the core functionality.
+
+3. Prints introductory information about the demo.
+
+4. Creates a DeviceManager object to manage camera devices.
+
+5. Updates the device list and checks if any cameras are available.
+
+6. Opens the first camera device found.
+
+7. Checks if the camera is a color camera. If so, it exits the program as this script is designed for monochrome cameras.
+
+8. Configures camera settings:
+   - Sets the trigger mode to OFF (continuous acquisition)
+   - Sets the exposure time to 10000 (microseconds)
+   - Sets the gain to 10.0
+
+9. Starts the data acquisition stream.
+
+10. Enters a loop to acquire a specified number of images (in this case, just one image):
+    - Retrieves a raw image from the camera
+    - Converts the raw image to a numpy array
+    - Creates a PIL Image object from the numpy array
+    - Displays the image
+    - Prints information about the acquired image (Frame ID, Height, and Width)
+
+11. Stops the data acquisition stream.
+
+12. Closes the camera device.
+
+13. The script uses a if __name__ == "__main__": block to ensure the main() function is only executed when the script is run directly, not when it's imported as a module.
+
+This script is useful for testing and demonstrating basic camera functionality, particularly for monochrome cameras, using the gxipy library. It shows how to set up the camera, acquire images, and display them in a simple manner.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/sample/GxSingleCamColor/GxSingleCamColor.py
+This Python script demonstrates how to acquire color images continuously from a camera using the gxipy library and display them. Here's a breakdown of what the script does:
+
+1. Imports necessary libraries: gxipy for camera control and PIL (Python Imaging Library) for image processing.
+
+2. Defines a main() function that contains the core functionality.
+
+3. Prints introductory information about the demo.
+
+4. Creates a device manager and updates the device list.
+
+5. Checks if any devices are available. If not, it exits the program.
+
+6. Opens the first available camera device.
+
+7. Checks if the camera is a color camera. If it's a mono camera, the script exits.
+
+8. Configures camera settings:
+   - Sets the trigger mode to OFF (continuous acquisition)
+   - Sets the exposure time to 10000.0
+   - Sets the gain to 10.0
+
+9. Retrieves image quality improvement parameters (gamma, contrast, and color correction) if available.
+
+10. Starts the data acquisition stream.
+
+11. Enters a loop to acquire a specified number of images (in this case, just one):
+    - Captures a raw image
+    - Converts the raw image to RGB format
+    - Applies image quality improvements
+    - Converts the image to a numpy array
+    - Creates a PIL Image object from the numpy array
+    - Displays the image
+    - Prints the frame ID, height, and width of the acquired image
+
+12. Stops the data acquisition stream.
+
+13. Closes the camera device.
+
+14. The script uses a if __name__ == "__main__": block to ensure the main() function is only called when the script is run directly, not when it's imported as a module.
+
+This script is designed to demonstrate basic camera control, image acquisition, and simple image processing using the gxipy library, likely for a specific type of industrial or scientific camera.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/api/setup.py
+This Python file is a setup script used for packaging and distributing a Python project called "gxipy". Let's break down what this script does:
+
+1. Shebang line:
+   `#!/usr/bin/env python`
+   This line specifies that the script should be executed using the Python interpreter.
+
+2. Encoding declaration:
+   `# -*- coding:utf-8 -*-`
+   This line declares that the file is encoded in UTF-8, which allows for proper handling of Unicode characters.
+
+3. Import statements:
+   - `from __future__ import print_function`: This ensures that the `print()` function from Python 3 is used, even if running on Python 2.
+   - `from setuptools import setup, find_packages`: Imports the necessary functions from the setuptools library, which is used for packaging Python projects.
+   - `import sys`: Imports the sys module, although it's not used in the visible part of the script.
+
+4. Setup configuration:
+   The `setup()` function is called with the following parameters:
+   - `name='gxipy'`: Specifies the name of the package.
+   - `version='1.0.1905.9051'`: Sets the version number of the package.
+   - `description=''`: Provides an empty description for the package.
+   - `license='MIT'`: Specifies that the package is released under the MIT license.
+   - `packages=['gxipy']`: Lists the package(s) to be included in the distribution.
+
+This setup script is typically used to create a distributable package for the "gxipy" project. When run, it will generate the necessary files and metadata for packaging the project, allowing it to be easily installed using package managers like pip.
+
+Note that this setup script is quite minimal and doesn't include many optional fields that are often included in setup.py files, such as long_description, author, author_email, url, classifiers, etc.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/sample/GxAcquireSoftTrigger/GxAcquireSoftTrigger.py
+This Python script is designed to interact with a camera device using the gxipy library (likely for industrial cameras). Here's a breakdown of what the script does:
+
+1. Imports necessary libraries: gxipy, time, and PIL (Python Imaging Library).
+
+2. Defines two functions:
+   - `acq_color(device, num)`: For acquiring color images from a color camera.
+   - `acq_mono(device, num)`: For acquiring monochrome images from a mono camera.
+
+3. Both acquisition functions:
+   - Use a software trigger to capture images.
+   - Retrieve raw image data from the device.
+   - Convert the raw data to a format suitable for display (RGB for color, grayscale for mono).
+   - Display the acquired image using PIL.
+   - Print information about the acquired image (Frame ID, Height, Width).
+
+4. The `main()` function:
+   - Initializes a device manager to interact with connected cameras.
+   - Checks if any devices are available.
+   - Opens the first available device.
+   - Configures camera settings:
+     - Sets exposure time to 10000 (units not specified, likely microseconds).
+     - Sets gain to 10.0.
+     - Enables trigger mode.
+     - For non-USB2 devices, sets the trigger source to software.
+   - Starts data acquisition.
+   - Determines if the camera is color or mono and calls the appropriate acquisition function.
+   - Acquires one image.
+   - Stops data acquisition and closes the device.
+
+5. The script is set up to run the `main()` function when executed directly.
+
+Overall, this script demonstrates how to:
+- Connect to a camera device.
+- Configure basic camera settings.
+- Acquire images using software triggering.
+- Process and display the acquired images.
+- Handle both color and monochrome cameras.
+
+It's a basic example of controlling an industrial camera for image acquisition, likely used for testing or as a starting point for more complex applications.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/api/gxipy/__init__.py
+This Python file appears to be a module or package related to a camera or imaging system, likely for the GigE Vision industrial camera standard. Here's a breakdown of what the file contains and does:
+
+1. Shebang and Encoding:
+   - The first line `#!/usr/bin/python` is a shebang, indicating that this script should be executed using Python.
+   - The second line `# -*- coding:utf-8 -*-` specifies that the file uses UTF-8 encoding.
+
+2. Editor Settings:
+   - The third line `# -*-mode:python ; tab-width:4 -*- ex:set tabstop=4 shiftwidth=4 expandtab: -*-` appears to be a comment containing editor settings, likely for Vim or a similar text editor. It sets the mode to Python, tab width to 4 spaces, and enables expanding tabs to spaces.
+
+3. Imports:
+   - The file imports everything (`*`) from two modules: `gxipy.gxiapi` and `gxipy.gxidef`.
+   - These modules are likely part of a SDK or library for interfacing with GigE Vision cameras.
+
+4. Module Exports:
+   - The `__all__` list defines which symbols will be exported when someone uses `from module import *`. In this case, it exports four names: "gxwrapper", "dxwrapper", "gxiapi", and "gxidef".
+
+5. Version Information:
+   - The `__version__` variable is set to '1.0.1905.9051', indicating the version of this module or the associated SDK.
+
+Overall, this file seems to be a part of a larger package or library for working with GigE Vision cameras. It serves as an entry point or initialization file for the package, importing necessary modules and defining what should be exported. The actual functionality for interacting with cameras is likely implemented in the imported modules (gxiapi and gxidef) and possibly in other files referenced by the exported names (gxwrapper and dxwrapper).
+File: ./software/tools/stitcher.py
+This Python file contains several functions and a class related to image stitching and processing. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries for image processing, file handling, and multiprocessing.
+
+2. Defines a constant `JVM_MAX_MEMORY_GB` for Java Virtual Machine memory allocation.
+
+3. `compute_overlap_percent`: Calculates the percentage overlap between images in a grid.
+
+4. `stitch_slide_mp`: A wrapper function that uses multiprocessing to run the `stitch_slide` function in a separate process.
+
+5. `migrate_tile_config`: Copies and modifies a tile configuration file for different channel and z-index combinations.
+
+6. `stitch_slide`: A wrapper function that calls the `Stitcher` class to perform image stitching for multiple time points.
+
+7. `Stitcher` class:
+   - Initializes ImageJ with specified memory allocation.
+   - `stitch_slide`: Stitches images for multiple time points, channels, and z-indices.
+   - `stitch_single_time_point`: Stitches images for a single time point.
+   - `stitch_single_channel_from_tile_config`: Stitches images using a pre-existing tile configuration file.
+   - `stitch_single_channel`: Stitches images for a single channel using filename-defined positions.
+
+8. `images_identical`: Checks if two OpenCV arrays are exactly the same.
+
+9. `combine_stitched_channels`: Combines stitched channel images into a single TIFF file, with options for multi-scale TIFF output.
+
+The code is designed to work with microscopy image data, allowing for the stitching of multiple image tiles into larger, coherent images. It handles various aspects of image processing, including:
+
+- Working with multiple time points, channels, and z-indices
+- Calculating image overlap
+- Using ImageJ for stitching operations
+- Handling tile configurations
+- Combining channels into RGB or monochrome images
+- Creating multi-scale TIFF outputs
+
+The code is flexible and can be used for different microscopy setups and image acquisition scenarios.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/api/gxipy/gxiapi.py
+This Python file defines a set of classes and functions for interacting with cameras, likely for machine vision applications. Here's an overview of the main components:
+
+1. DeviceManager class:
+   - Manages device discovery, enumeration, and opening
+   - Provides methods to update device lists, get device info, and open devices by various identifiers
+
+2. Feature classes (IntFeature, FloatFeature, EnumFeature, BoolFeature, StringFeature, BufferFeature, CommandFeature):
+   - Represent different types of camera features/settings
+   - Provide methods to get and set feature values
+
+3. Device class:
+   - Represents a camera device
+   - Contains various feature objects for controlling camera settings
+   - Provides methods for starting/stopping image acquisition
+
+4. Specialized Device classes (GEVDevice, U3VDevice, U2Device):
+   - Inherit from Device class
+   - Add protocol-specific features and functionality
+
+5. DataStream class:
+   - Handles image data streaming from the camera
+   - Provides methods for setting buffer numbers and retrieving images
+
+6. RawImage and RGBImage classes:
+   - Represent raw and RGB image data respectively
+   - Provide methods for image conversion, improvement, and saving
+
+7. Utility class:
+   - Provides static methods for generating gamma and contrast lookup tables
+
+8. Various Exception classes:
+   - Define custom exceptions for error handling
+
+9. StatusProcessor class:
+   - Handles error processing and exception throwing
+
+The file also includes various helper functions and constants related to image processing and camera control.
+
+Overall, this file provides a high-level Python interface for controlling cameras, acquiring images, and performing basic image processing operations. It likely wraps a lower-level C/C++ library (as evidenced by the use of ctypes) to provide this functionality.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/api/gxipy/dxwrapper.py
+This Python file is a module that provides an interface to a C/C++ library for image processing. Here's a breakdown of its functionality:
+
+1. It imports necessary modules (ctypes, sys, os).
+
+2. It attempts to load a shared library (DLL on Windows, .so on Linux) for image processing.
+
+3. It defines several classes for status codes, pixel color filters, and actual bit depths.
+
+4. It defines several functions that wrap C functions from the loaded library:
+
+   a. dx_get_gamma_lut: Calculates a gamma lookup table.
+   b. dx_get_contrast_lut: Calculates a contrast lookup table.
+   c. dx_raw8_to_rgb24: Converts Raw8 image format to RGB24.
+   d. dx_raw16_to_raw8: Converts Raw16 image format to Raw8.
+   e. dx_image_improvement: Performs image quality improvement.
+   f. dx_saturation: Adjusts image saturation.
+   g. dx_auto_raw_defective_pixel_correct: Corrects defective pixels in raw images.
+   h. dx_sharpen_24b: Applies sharpening to RGB24 images.
+
+5. Each function is wrapped in a conditional statement (if hasattr(dll, ...)) to ensure the function exists in the loaded library before defining the Python wrapper.
+
+6. The functions generally take input image data, various parameters, and return processed image data along with a status code.
+
+7. The module uses ctypes to interface with the C library, converting Python types to C types and vice versa.
+
+8. There are commented-out sections that define additional structures (MonoImgProcess and ColorImgProcess) and a function (gx_get_lut), which are not currently in use.
+
+This module appears to be part of a larger system for image processing, likely used in conjunction with camera hardware or image processing software. It provides a Python interface to low-level image processing functions implemented in C/C++.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/api/gxipy/gxwrapper.py
+This Python file defines a set of functions and classes for interacting with a camera device using the GxIAPI library. Here's an overview of what the file does:
+
+1. It imports necessary modules and loads the GxIAPI library.
+
+2. It defines several classes representing different types of data structures and enumerations used by the library, such as GxStatusList, GxOpenMode, GxFeatureID, etc.
+
+3. It defines structures like GxDeviceIPInfo, GxDeviceBaseInfo, GxOpenParam, GxFrameCallbackParam, GxFrameData, etc., which are used to store various types of information related to the camera device.
+
+4. It wraps many functions from the GxIAPI library, providing Python interfaces for operations such as:
+   - Initializing and closing the library
+   - Getting error information
+   - Updating device lists
+   - Getting device information
+   - Opening and closing devices
+   - Getting and setting various device features (int, float, enum, bool, string, buffer)
+   - Sending commands to the device
+   - Capturing images
+   - Flushing queues
+   - Exporting and importing configuration files
+   - Setting acquisition buffer numbers
+
+5. It provides utility functions for string encoding/decoding and range checking.
+
+6. Many of the functions are conditionally defined based on whether the corresponding function exists in the loaded library.
+
+7. Some functions related to callbacks, device offline handling, and streaming are commented out in this version.
+
+This file essentially provides a Python wrapper around the GxIAPI C library, allowing users to control and interact with compatible camera devices using Python code. It handles the low-level C function calls and data structures, providing a more Pythonic interface for developers to use.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/api/gxipy/gxidef.py
+This Python file defines a series of classes and constants related to image processing and camera control. Here's a breakdown of what it contains:
+
+1. Constants:
+   - Defines minimum and maximum values for gamma and contrast.
+   - Defines maximum values for unsigned int and unsigned long long.
+
+2. Classes:
+   Each class represents a set of constants or enumerations for different aspects of image processing and camera control. The classes include:
+
+   - GxFrameStatusList: Frame state codes
+   - GxDeviceClassList: Device type codes
+   - GxAccessMode: Device access modes
+   - GxAccessStatus: Device access status
+   - GxIPConfigureModeList: IP configuration modes
+   - GxPixelSizeEntry: Pixel size entries
+   - GxPixelColorFilterEntry: Pixel color filter entries
+   - GxPixelFormatEntry: Pixel format entries
+   - GxAcquisitionModeEntry: Acquisition mode entries
+   - GxTriggerSourceEntry: Trigger source entries
+   - GxTriggerActivationEntry: Trigger activation entries
+   - GxExposureModeEntry: Exposure mode entries
+   - GxUserOutputSelectorEntry: User output selector entries
+   - GxUserOutputModeEntry: User output mode entries
+   - GxGainSelectorEntry: Gain selector entries
+   - GxBlackLevelSelectEntry: Black level select entries
+   - GxBalanceRatioSelectorEntry: Balance ratio selector entries
+   - GxAALightEnvironmentEntry: AA light environment entries
+   - GxUserSetEntry: User set entries
+   - GxAWBLampHouseEntry: AWB lamp house entries
+   - GxTestPatternEntry: Test pattern entries
+   - GxTriggerSelectorEntry: Trigger selector entries
+   - GxLineSelectorEntry: Line selector entries
+   - GxLineModeEntry: Line mode entries
+   - GxLineSourceEntry: Line source entries
+   - GxEventSelectorEntry: Event selector entries
+   - GxLutSelectorEntry: LUT selector entries
+   - GxTransferControlModeEntry: Transfer control mode entries
+   - GxTransferOperationModeEntry: Transfer operation mode entries
+   - GxTestPatternGeneratorSelectorEntry: Test pattern generator selector entries
+   - GxChunkSelectorEntry: Chunk selector entries
+   - GxTimerSelectorEntry: Timer selector entries
+   - GxTimerTriggerSourceEntry: Timer trigger source entries
+   - GxCounterSelectorEntry: Counter selector entries
+   - GxCounterEventSourceEntry: Counter event source entries
+   - GxCounterResetSourceEntry: Counter reset source entries
+   - GxCounterResetActivationEntry: Counter reset activation entries
+   - GxBinningHorizontalModeEntry: Binning horizontal mode entries
+   - GxBinningVerticalModeEntry: Binning vertical mode entries
+   - GxAcquisitionStatusSelectorEntry: Acquisition status selector entries
+   - GxGammaModeEntry: Gamma mode entries
+   - GxColorTransformationModeEntry: Color transformation mode entries
+   - GxColorTransformationValueSelectorEntry: Color transformation value selector entries
+   - GxAutoEntry: Auto entries
+   - GxSwitchEntry: Switch entries
+   - GxRegionSendModeEntry: Region send mode entries
+   - GxRegionSelectorEntry: Region selector entries
+   - DxBayerConvertType: Bayer conversion type entries
+   - DxValidBit: Valid bit entries
+   - DxImageMirrorMode: Image mirror mode entries
+
+Each class contains a set of constants that represent different options or settings for that particular aspect of image processing or camera control.
+
+This file serves as a comprehensive collection of enumerations and constants that can be used in a larger image processing or camera control system, providing a standardized set of values for various settings and options.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/api/build/lib/gxipy/gxwrapper.py
+This Python file defines a set of functions and classes for interacting with a camera device using the GxIAPI library. Here's an overview of what the file does:
+
+1. It imports necessary modules and loads the GxIAPI library.
+
+2. It defines several classes representing different types of data structures and enumerations used by the library, such as GxStatusList, GxOpenMode, GxFeatureID, etc.
+
+3. It defines structures like GxDeviceIPInfo, GxDeviceBaseInfo, GxOpenParam, GxFrameCallbackParam, GxFrameData, etc., which are used to store various types of information related to the camera device.
+
+4. It wraps many functions from the GxIAPI library, providing Python interfaces for operations such as:
+   - Initializing and closing the library
+   - Getting error information
+   - Updating device lists
+   - Getting device information
+   - Opening and closing devices
+   - Getting and setting various device features (int, float, enum, bool, string, buffer)
+   - Sending commands to the device
+   - Capturing images
+   - Flushing queues
+   - Exporting and importing configuration files
+   - Setting acquisition buffer numbers
+
+5. It provides utility functions for string encoding/decoding and range checking.
+
+6. Many of the functions are conditionally defined based on whether the corresponding function exists in the loaded library.
+
+7. Some functions related to callbacks, device offline handling, and streaming are commented out in this version.
+
+This file essentially provides a Python wrapper around the GxIAPI C library, allowing users to control and interact with compatible camera devices using Python code. It handles the low-level C function calls and data structures, providing a more Pythonic interface for developers to use.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/api/build/lib/gxipy/__init__.py
+This Python file appears to be a module or package related to a camera or imaging system, likely for the GigE Vision industrial camera standard. Here's a breakdown of what the file contains and does:
+
+1. Shebang and Encoding:
+   - The first line `#!/usr/bin/python` is a shebang, indicating that this script should be executed using Python.
+   - The second line `# -*- coding:utf-8 -*-` specifies that the file uses UTF-8 encoding.
+
+2. Editor Settings:
+   - The third line `# -*-mode:python ; tab-width:4 -*- ex:set tabstop=4 shiftwidth=4 expandtab: -*-` appears to be a comment containing editor settings, likely for Vim or a similar text editor. It sets the mode to Python, tab width to 4 spaces, and enables expanding tabs to spaces.
+
+3. Imports:
+   - The file imports everything (`*`) from two modules: `gxipy.gxiapi` and `gxipy.gxidef`.
+   - These modules are likely part of a SDK or library for interfacing with GigE Vision cameras.
+
+4. Module Exports:
+   - The `__all__` list defines which symbols will be exported when someone uses `from module import *`. In this case, it exports four names: "gxwrapper", "dxwrapper", "gxiapi", and "gxidef".
+
+5. Version Information:
+   - The `__version__` variable is set to '1.0.1905.9051', indicating the version of this module or the associated SDK.
+
+Overall, this file seems to be a part of a larger package or library for working with GigE Vision cameras. It serves as an entry point or initialization file for the package, importing necessary modules and defining what should be exported. The actual functionality for interacting with cameras is likely implemented in the imported modules (gxiapi and gxidef) and possibly in other files referenced by the exported names (gxwrapper and dxwrapper).
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/api/build/lib/gxipy/gxiapi.py
+This Python file defines a set of classes and functions for interacting with cameras, likely for machine vision applications. Here's an overview of the main components:
+
+1. DeviceManager class:
+   - Manages device discovery, enumeration, and opening
+   - Provides methods to update device lists, get device info, and open devices by various identifiers
+
+2. Feature classes (IntFeature, FloatFeature, EnumFeature, BoolFeature, StringFeature, BufferFeature, CommandFeature):
+   - Represent different types of camera features/settings
+   - Provide methods to get and set feature values
+
+3. Device class:
+   - Represents a camera device
+   - Contains various feature objects for controlling camera settings
+   - Provides methods for starting/stopping image acquisition
+
+4. Specialized Device classes (GEVDevice, U3VDevice, U2Device):
+   - Inherit from Device class
+   - Add protocol-specific features and functionality
+
+5. DataStream class:
+   - Handles image data streaming from the camera
+   - Provides methods for setting buffer numbers and retrieving images
+
+6. RawImage and RGBImage classes:
+   - Represent raw and RGB image data respectively
+   - Provide methods for image conversion, improvement, and saving
+
+7. Utility class:
+   - Provides static methods for generating gamma and contrast lookup tables
+
+8. Various Exception classes:
+   - Define custom exceptions for error handling
+
+9. StatusProcessor class:
+   - Handles error processing and exception throwing
+
+The file also includes various helper functions and constants related to image processing and camera control.
+
+Overall, this file provides a high-level Python interface for controlling cameras, acquiring images, and performing basic image processing operations. It likely wraps a lower-level C/C++ library (as evidenced by the use of ctypes) to provide this functionality.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/api/build/lib/gxipy/gxidef.py
+This Python file defines a series of classes and constants related to image processing and camera control. Here's a breakdown of what it contains:
+
+1. Constants:
+   - Defines minimum and maximum values for gamma and contrast.
+   - Defines maximum values for unsigned int and unsigned long long.
+
+2. Classes:
+   Each class represents a set of constants or enumerations for different aspects of image processing and camera control. The classes include:
+
+   - GxFrameStatusList: Frame state codes
+   - GxDeviceClassList: Device type codes
+   - GxAccessMode: Device access modes
+   - GxAccessStatus: Device access status
+   - GxIPConfigureModeList: IP configuration modes
+   - GxPixelSizeEntry: Pixel size entries
+   - GxPixelColorFilterEntry: Pixel color filter entries
+   - GxPixelFormatEntry: Pixel format entries
+   - GxAcquisitionModeEntry: Acquisition mode entries
+   - GxTriggerSourceEntry: Trigger source entries
+   - GxTriggerActivationEntry: Trigger activation entries
+   - GxExposureModeEntry: Exposure mode entries
+   - GxUserOutputSelectorEntry: User output selector entries
+   - GxUserOutputModeEntry: User output mode entries
+   - GxGainSelectorEntry: Gain selector entries
+   - GxBlackLevelSelectEntry: Black level select entries
+   - GxBalanceRatioSelectorEntry: Balance ratio selector entries
+   - GxAALightEnvironmentEntry: AA light environment entries
+   - GxUserSetEntry: User set entries
+   - GxAWBLampHouseEntry: AWB lamp house entries
+   - GxTestPatternEntry: Test pattern entries
+   - GxTriggerSelectorEntry: Trigger selector entries
+   - GxLineSelectorEntry: Line selector entries
+   - GxLineModeEntry: Line mode entries
+   - GxLineSourceEntry: Line source entries
+   - GxEventSelectorEntry: Event selector entries
+   - GxLutSelectorEntry: LUT selector entries
+   - GxTransferControlModeEntry: Transfer control mode entries
+   - GxTransferOperationModeEntry: Transfer operation mode entries
+   - GxTestPatternGeneratorSelectorEntry: Test pattern generator selector entries
+   - GxChunkSelectorEntry: Chunk selector entries
+   - GxTimerSelectorEntry: Timer selector entries
+   - GxTimerTriggerSourceEntry: Timer trigger source entries
+   - GxCounterSelectorEntry: Counter selector entries
+   - GxCounterEventSourceEntry: Counter event source entries
+   - GxCounterResetSourceEntry: Counter reset source entries
+   - GxCounterResetActivationEntry: Counter reset activation entries
+   - GxBinningHorizontalModeEntry: Binning horizontal mode entries
+   - GxBinningVerticalModeEntry: Binning vertical mode entries
+   - GxAcquisitionStatusSelectorEntry: Acquisition status selector entries
+   - GxGammaModeEntry: Gamma mode entries
+   - GxColorTransformationModeEntry: Color transformation mode entries
+   - GxColorTransformationValueSelectorEntry: Color transformation value selector entries
+   - GxAutoEntry: Auto entries
+   - GxSwitchEntry: Switch entries
+   - GxRegionSendModeEntry: Region send mode entries
+   - GxRegionSelectorEntry: Region selector entries
+   - DxBayerConvertType: Bayer conversion type entries
+   - DxValidBit: Valid bit entries
+   - DxImageMirrorMode: Image mirror mode entries
+
+Each class contains a set of constants that represent different options or settings for that particular aspect of image processing or camera control.
+
+This file serves as a comprehensive collection of enumerations and constants that can be used in a larger image processing or camera control system, providing a standardized set of values for various settings and options.
+File: ./software/control/core_PDAF.py
+This Python file defines two main classes: `PDAFController` and `TwoCamerasPDAFCalibrationController`. Here's a breakdown of what the file does:
+
+1. Imports necessary libraries and modules.
+
+2. Defines the `PDAFController` class:
+   - Manages phase detection autofocus (PDAF) functionality.
+   - Receives images from two cameras and calculates defocus.
+   - Uses image registration techniques to compute the shift between images.
+
+3. Defines the `TwoCamerasPDAFCalibrationController` class:
+   - Manages the calibration process for two cameras using PDAF.
+   - Controls image acquisition, navigation, and live view for both cameras.
+   - Handles experiment setup, including folder creation and configuration management.
+   - Implements multi-point acquisition with support for z-stacks and time-lapse imaging.
+
+Key functionalities:
+
+- Image registration and defocus calculation
+- Multi-camera control and synchronization
+- Z-stack and time-lapse acquisition
+- Experiment data management and storage
+- Configuration management for different imaging modes
+- Live view control and image display
+- Motion control for sample navigation
+
+The file sets up a system for automated microscopy imaging using two cameras, with a focus on phase detection autofocus calibration and multi-point acquisition. It provides a framework for conducting complex imaging experiments with precise control over various parameters such as z-stack depth, time intervals, and multiple imaging configurations.
+File: ./software/control/gui_tiscamera.py
+This Python file defines a graphical user interface (GUI) for a microscopy control application called OctopiGUI. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules, including Qt for the GUI, and custom modules for camera control, microcontroller control, and various widgets.
+
+2. Sets up a simulation mode with the SIMULATION variable.
+
+3. Defines the main OctopiGUI class, which inherits from QMainWindow:
+
+   a. Initializes various controllers and handlers:
+      - Camera
+      - Microcontroller
+      - Configuration Manager
+      - Stream Handler
+      - Live Controller
+      - Navigation Controller
+      - Tracking Controller
+      - Image Saver
+      - Image Display
+
+   b. Sets up the camera for software-triggered acquisition.
+
+   c. Creates and arranges widgets for:
+      - Camera settings
+      - Live control
+      - Navigation
+      - Recording control
+      - Tracking control
+
+   d. Sets up the main layout and central widget.
+
+   e. Creates image display windows for the main display and thresholded image.
+
+   f. Establishes signal connections between various components for handling new frames, updating displays, and controlling navigation.
+
+4. Implements a closeEvent method to properly shut down the application, closing the camera, saving images, and closing windows.
+
+The GUI allows users to:
+- Control camera settings
+- Navigate the microscope stage
+- Start/stop live viewing
+- Record images
+- Perform tracking operations
+
+The application supports both real hardware and simulation mode, depending on the SIMULATION variable. It uses a multi-threaded approach for handling various operations concurrently.
+File: ./software/drivers and libraries/daheng camera/Galaxy_Linux_Python_1.0.1905.9081/api/build/lib/gxipy/dxwrapper.py
+This Python file is a module that provides an interface to a C/C++ library for image processing. Here's a breakdown of its functionality:
+
+1. It imports necessary modules (ctypes, sys, os).
+
+2. It attempts to load a shared library (DLL on Windows, .so on Linux) for image processing.
+
+3. It defines several classes for status codes, pixel color filters, and actual bit depths.
+
+4. It defines several functions that wrap C functions from the loaded library:
+
+   a. dx_get_gamma_lut: Calculates a gamma lookup table.
+   b. dx_get_contrast_lut: Calculates a contrast lookup table.
+   c. dx_raw8_to_rgb24: Converts Raw8 image format to RGB24.
+   d. dx_raw16_to_raw8: Converts Raw16 image format to Raw8.
+   e. dx_image_improvement: Performs image quality improvement.
+   f. dx_saturation: Adjusts image saturation.
+   g. dx_auto_raw_defective_pixel_correct: Corrects defective pixels in raw images.
+   h. dx_sharpen_24b: Applies sharpening to RGB24 images.
+
+5. Each function is wrapped in a conditional statement (if hasattr(dll, ...)) to ensure the function exists in the loaded library before defining the Python wrapper.
+
+6. The functions generally take input image data, various parameters, and return processed image data along with a status code.
+
+7. The module uses ctypes to interface with the C library, converting Python types to C types and vice versa.
+
+8. There are commented-out sections that define additional structures (MonoImgProcess and ColorImgProcess) and a function (gx_get_lut), which are not currently in use.
+
+This module appears to be part of a larger system for image processing, likely used in conjunction with camera hardware or image processing software. It provides a Python interface to low-level image processing functions implemented in C/C++.
+File: ./software/control/gui_usbspectrometer.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling and interacting with various hardware components, including a camera, microcontroller, and spectrometer. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules.
+
+2. Defines a class `OctopiGUI` that inherits from `QMainWindow`.
+
+3. In the `__init__` method:
+   - Initializes the main window and creates image display windows.
+   - Initializes hardware components (camera, microcontroller, spectrometer) either in simulation mode or real mode.
+   - Sets up various controllers for different functionalities (live view, navigation, autofocus, multipoint acquisition, tracking, etc.).
+   - Creates and configures widgets for different controls (camera settings, live control, navigation, DAC control, autofocus, recording, etc.).
+   - Arranges the widgets in a layout.
+   - Sets up connections between different components for signal handling.
+
+4. The GUI includes features such as:
+   - Live camera view
+   - Camera settings control
+   - Navigation controls
+   - Autofocus
+   - Recording (both camera and spectrometer)
+   - Multipoint acquisition
+   - Tracking (if enabled)
+   - Spectrum display
+
+5. The layout can be configured to display everything in a single window or separate windows for display and control.
+
+6. Implements a `closeEvent` method to properly shut down and close all components when the application is closed.
+
+Overall, this code creates a comprehensive GUI for controlling and monitoring a complex system involving a camera, spectrometer, and various other components, likely for some kind of scientific or industrial application.
+File: ./software/control/gui_PDAF_demo.py
+This Python file defines a graphical user interface (GUI) for a system that appears to be controlling two cameras and a microcontroller. Here's a breakdown of what the code does:
+
+1. It sets up the environment and imports necessary libraries, including Qt for the GUI.
+
+2. It defines an `Internal_States` class to store some state information.
+
+3. The main class `OctopiGUI` is defined, which inherits from `QMainWindow`:
+
+   - It initializes various components:
+     - Microcontroller (real or simulated)
+     - Two cameras (real or simulated)
+     - Navigation controller
+     - PDAF (Phase Detection Autofocus) controller
+     - Configuration manager
+     - Stream handlers for both cameras
+     - Live controllers for both cameras
+     - Image savers for both cameras
+     - Two-camera PDAF calibration controller
+
+   - It sets up the cameras, opening them and setting their acquisition mode.
+
+   - It creates and lays out various widgets:
+     - Navigation widget
+     - Camera settings widgets (one for each camera)
+     - Live control widgets (one for each camera)
+
+   - It creates two image display windows, one for each camera.
+
+   - It sets up various signal connections between components:
+     - Connecting navigation controller signals to the navigation widget
+     - Connecting stream handler signals to live controllers, image display windows, and image savers
+     - Connecting live control widget signals to camera setting widgets
+     - Connecting stream handler signals to the PDAF controller
+
+4. The `closeEvent` method is defined to properly close and clean up resources when the application is closed.
+
+This GUI seems to be designed for a system that uses two cameras, possibly for tracking and fluorescence imaging, with capabilities for navigation control, live image display, image saving, and potentially some form of autofocus (PDAF). The system appears to be flexible, allowing for both real hardware and simulated components.
+File: ./software/control/gui_2cameras_async.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling and managing two cameras in a microscopy setup. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules, including Qt for the GUI, and custom modules for camera control, microcontroller simulation, and image processing.
+
+2. Defines the `OctopiGUI` class, which inherits from `QMainWindow`.
+
+3. In the `__init__` method:
+   - Initializes various controllers and managers for different aspects of the system (e.g., microcontroller, navigation, camera, configuration, stream handling, live view, autofocus, multipoint imaging, image saving, and tracking).
+   - Sets up two simulated cameras (Camera_1 for tracking and Camera_2 for fluorescence).
+   - Opens both cameras and sets them to software-triggered acquisition mode.
+   - Creates and arranges GUI widgets for camera settings, live control, navigation, recording, and multipoint imaging.
+   - Sets up the main window layout and adds widgets to it.
+   - Creates separate windows for displaying images from each camera and a multi-channel array display.
+   - Establishes signal connections between various components to handle events and update the GUI.
+
+4. Defines a `closeEvent` method to properly shut down the system when the application is closed, including stopping live views, closing cameras, and closing display windows.
+
+Key features of the system include:
+- Dual camera control (tracking and fluorescence)
+- Live view and recording capabilities
+- Navigation controls
+- Autofocus (for Camera_2)
+- Multipoint imaging (for Camera_2)
+- Configuration management for each camera
+- Image display in separate windows
+- Tracking control (commented out in this version)
+
+This GUI appears to be designed for a complex microscopy system with multiple imaging modalities and automated control features.
+File: ./software/control/microcontroller2.py
+This Python file defines two classes: `Microcontroller2` and `Microcontroller2_Simulation`. Here's a breakdown of what the file does:
+
+1. Imports necessary modules and libraries.
+
+2. Defines the `Microcontroller2` class:
+   - Initializes communication with a Teensy microcontroller via serial port.
+   - Provides methods for various operations:
+     - Analog write to DAC8050x
+     - Set camera trigger frequency
+     - Start/stop camera triggering
+   - Implements a command sending mechanism with error checking and resend capability.
+   - Includes a method for reading received packets from the microcontroller.
+
+3. Defines the `Microcontroller2_Simulation` class:
+   - Simulates the behavior of the `Microcontroller2` class for testing purposes.
+   - Implements similar methods as `Microcontroller2`, but without actual hardware communication.
+   - Uses timers and delays to simulate command execution times.
+
+Key features of both classes:
+
+- Command ID tracking for synchronization between the host and microcontroller.
+- Buffer management for sending and receiving data.
+- Error checking and handling for command execution.
+- Callback mechanism for notifying external functions about new packets.
+- Methods to check if the microcontroller is busy executing a command.
+
+The `Microcontroller2` class is designed for real hardware interaction, while the `Microcontroller2_Simulation` class provides a software simulation of the same functionality for testing and development purposes.
+
+Both classes use a predefined set of commands (CMD_SET2) and status codes (CMD_EXECUTION_STATUS) which are likely defined in an imported file (`control._def`).
+
+The code also includes some commented-out sections, suggesting ongoing development or debugging processes.
+File: ./software/control/gui_toupcam_IMX571.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling a microscope system. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules, including Qt for the GUI, custom modules for camera control, microcontroller interaction, and image processing.
+
+2. Defines a main window class `OctopiGUI` that inherits from `QMainWindow`.
+
+3. In the `__init__` method:
+   - Creates image display windows for live view and multichannel acquisition.
+   - Initializes camera and microcontroller objects (real or simulated).
+   - Sets up various controllers for live imaging, navigation, autofocus, multipoint acquisition, and tracking (if enabled).
+   - Creates widgets for camera settings, live control, navigation, DAC control, autofocus, recording, tracking (if enabled), and multipoint acquisition.
+   - Arranges these widgets in a layout.
+   - Sets up connections between different components for signal handling.
+
+4. Configures the main window layout, either as a single window or separate windows for display and control.
+
+5. Sets up signal connections between various components for real-time updates and interactions.
+
+6. Defines a `closeEvent` method to handle proper shutdown of components when the application is closed.
+
+Key features of the microscope system include:
+- Live imaging and display
+- Camera control and settings adjustment
+- Motorized stage control for navigation
+- Autofocus capability
+- Multipoint acquisition
+- Tracking (if enabled)
+- Image saving and recording
+- Configuration management for different imaging modes
+
+The GUI provides a comprehensive interface for controlling all aspects of the microscope system, allowing users to navigate the sample, adjust imaging parameters, perform autofocus, and acquire images or image sequences.
+File: ./software/control/widgets_tracking.py
+This Python file defines a class called `TrackingControllerWidget` that inherits from `QFrame`. Here's a breakdown of what the code does:
+
+1. It sets the "QT_API" environment variable to "pyqt5" using `os.environ`.
+
+2. It imports the `qtpy` library, which is a abstraction layer for various Qt bindings (PyQt5, PyQt6, PySide2, PySide6).
+
+3. It imports specific modules from `qtpy`:
+   - `QtCore`: Contains core non-GUI functionality.
+   - `QtWidgets`: Provides classes for creating classic desktop-style user interfaces.
+   - `QtGui`: Provides classes for windowing system integration, event handling, and graphics.
+
+4. It imports something from `control._def`, but the specific import is not shown in the provided code.
+
+5. The `TrackingControllerWidget` class is defined:
+   - It inherits from `QFrame`, which is a widget that can have a frame.
+   - The constructor takes `multipointController`, `navigationController`, and `main` as parameters, along with any additional args and kwargs.
+   - It initializes the parent class using `super().__init__()`.
+   - It stores the `multipointController` and `navigationController` as instance variables.
+   - It sets a `base_path_is_set` flag to `False`.
+   - There's a commented-out line that would call an `add_components()` method (not implemented in the shown code).
+   - It sets the frame style to `QFrame.Panel | QFrame.Raised`, which creates a raised panel appearance.
+
+6. The class doesn't implement any methods beyond the constructor.
+
+This code appears to be part of a larger application, likely related to some kind of tracking or navigation system with a graphical user interface. The `TrackingControllerWidget` class is probably intended to be a container for controls related to tracking functionality, but the actual implementation of those controls is not present in the provided code snippet.
+File: ./software/control/gui_motion_only.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for a system that appears to control navigation or positioning. Here's a breakdown of what the code does:
+
+1. It sets the QT_API environment variable to "pyqt5" and imports necessary Qt libraries.
+
+2. It imports custom modules: widgets, camera, core, and microcontroller.
+
+3. The `OctopiGUI` class is defined, inheriting from `QMainWindow`.
+
+4. In the `__init__` method:
+   - It creates instances of `Microcontroller` and `NavigationController`.
+   - It creates a `NavigationWidget`.
+   - It sets up a grid layout and adds the `NavigationWidget` to it.
+   - It creates a central widget, sets its layout, and sets it as the central widget of the main window.
+   - It connects signals from the `NavigationController` to update labels in the `NavigationWidget` for X, Y, and Z positions.
+
+5. The `closeEvent` method is defined to handle what happens when the window is closed. It calls the `home()` method of the `NavigationController`.
+
+Key points:
+- This GUI is likely part of a larger system for controlling positioning or navigation, possibly for a microscope or similar scientific instrument.
+- It uses Qt for the GUI framework.
+- It separates concerns by using different modules for widgets, camera control, core functionality, and microcontroller interaction.
+- The GUI updates position labels (X, Y, Z) in real-time based on signals from the navigation controller.
+- When the window is closed, it seems to return the system to a home position.
+
+Note that some parts of the system (like camera functionality) are imported but not directly used in this file, suggesting they might be used in other parts of the application or in future expansions.
+File: ./software/control/gui_2cameras_async_focus_tracking.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling and displaying images from two cameras. Here's a breakdown of what the code does:
+
+1. It sets up the environment to use PyQt5 as the Qt API.
+
+2. It imports necessary Qt libraries and custom modules for camera control, widgets, and other functionalities.
+
+3. The `OctopiGUI` class is defined, which inherits from `QMainWindow`.
+
+4. In the `__init__` method:
+   - It initializes two simulated cameras and a simulated microcontroller.
+   - It creates various controller objects for handling streams, live view, navigation, autofocus, tracking, and image saving/display.
+   - It opens both cameras and sets them up for software-triggered acquisition.
+   - It creates widgets for camera settings, live control, navigation, autofocus, recording, and tracking.
+   - It sets up a layout for the GUI, adding some of the widgets to it.
+   - It creates two image display windows.
+   - It makes connections between various signals and slots to handle events and data flow between components.
+
+5. The `closeEvent` method is defined to properly close and clean up resources when the GUI is closed.
+
+Key features of the GUI:
+- Control of two cameras simultaneously
+- Live view display for both cameras
+- Camera settings adjustment
+- Navigation control (presumably for a microscope stage or similar)
+- Autofocus capability
+- Image recording
+- Object tracking
+- Phase Detection Autofocus (PDAF) functionality
+
+The GUI seems to be designed for a microscopy or imaging system with two cameras, allowing for complex control and image processing tasks. However, note that some widgets and functionalities are commented out in the layout, suggesting that this might be a work in progress or that certain features can be enabled/disabled as needed.
+File: ./software/control/gui_malaria.py
+This Python file defines a class called `OctopiGUI` which is a graphical user interface (GUI) for controlling a microscope system. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules.
+
+2. Defines a class `OctopiGUI` that inherits from `QMainWindow`.
+
+3. In the `__init__` method:
+   - Initializes camera and microcontroller objects (real or simulated).
+   - Sets up various controllers for different functionalities (e.g., live view, navigation, autofocus, multipoint acquisition).
+   - Configures hardware settings (e.g., encoders, piezo, DAC).
+   - Creates and sets up GUI widgets for different controls and displays.
+   - Arranges widgets in the main window layout.
+   - Sets up signal connections between different components.
+
+4. The GUI includes features such as:
+   - Live view of the camera feed
+   - Navigation controls for moving the microscope stage
+   - Autofocus functionality
+   - Multipoint acquisition
+   - Focus mapping
+   - Tracking (if enabled)
+   - Image saving and display
+
+5. The code supports different display options:
+   - Can use Napari for live view and multipoint display
+   - Can show a tiled preview of the acquisition area
+
+6. Implements a `closeEvent` method to handle proper shutdown of hardware and software components when the application is closed.
+
+Overall, this code creates a comprehensive GUI for controlling a microscope system, allowing users to navigate the sample, capture images, perform autofocus, and run complex acquisition protocols. It's designed to be flexible, supporting both real hardware and simulated components for development and testing purposes.
+File: ./software/control/gui_tiscamera_DZK250.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling a microscope system. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries, including Qt for the GUI, and custom modules for camera control, microcontroller management, and other functionalities.
+
+2. Defines the `OctopiGUI` class, which inherits from `QMainWindow`.
+
+3. In the `__init__` method:
+   - Initializes various components: camera, microcontroller, configuration manager, stream handler, live controller, navigation controller, autofocus controller, multipoint controller, tracking controller, image saver, and image display.
+   - Opens the camera and sets up software-triggered acquisition.
+   - Creates and sets up various widgets for camera settings, live control, navigation, autofocus, recording control, tracking control, and multipoint acquisition.
+   - Arranges these widgets in a grid layout.
+   - Creates and shows image display windows.
+   - Sets up signal connections between different components for handling events and data flow.
+
+4. Defines a `closeEvent` method to handle proper shutdown of components when the application is closed.
+
+Key features of the application include:
+- Camera control and live view
+- Navigation controls for the microscope stage
+- Autofocus functionality
+- Recording and saving images
+- Tracking capability
+- Multipoint acquisition
+- Display of live and recorded images
+
+The GUI appears to be designed for a sophisticated microscope system with various automated features and image processing capabilities. It allows users to control the microscope, capture images, and perform complex imaging tasks through a user-friendly interface.
+File: ./software/control/_multipoint_custom_script_entry.py
+This Python file defines a function called `multipoint_custom_script_entry` that appears to be part of a larger microscopy automation system. Here's a breakdown of what the function does:
+
+1. It handles autofocus operations:
+   - If scan coordinates include z-location, it performs autofocus for the first scan and updates coordinates.
+   - For subsequent scans, it autofocuses at the first Field of View (FOV) and offsets the rest.
+   - If z-location is not included, it performs autofocus based on certain conditions.
+
+2. It manages z-stacking:
+   - If multiple z-planes are to be captured, it moves to the bottom of the z-stack.
+   - It performs a maneuver to achieve uniform step size and repeatability.
+
+3. It iterates through z-planes and selected imaging configurations:
+   - For each z-plane and configuration, it:
+     - Updates the current configuration
+     - Triggers image acquisition
+     - Reads the camera frame
+     - Processes the image (cropping, rotating, flipping)
+     - Saves the image
+     - Emits signals to display the image
+
+4. It handles USB spectrometer data acquisition and saving, if applicable.
+
+5. It records the coordinates of each captured location.
+
+6. It registers the current FOV in the navigation viewer.
+
+7. It checks if the acquisition should be aborted, and if so, performs necessary cleanup.
+
+8. It manages z-movement between planes and after completing a stack.
+
+9. It updates the FOV counter.
+
+The function seems to be part of a complex microscopy system that can perform multi-point, multi-channel, z-stack imaging with various hardware components (camera, stage, illumination sources, spectrometer). It includes features like autofocus, flexible imaging configurations, and abort handling. The code also emits signals, suggesting it's part of a larger application with a user interface.
+File: ./software/control/serial_peripherals.py
+This Python file defines several classes for controlling various scientific instruments and devices through serial communication. Here's a breakdown of the main components and their functionalities:
+
+1. SerialDevice class:
+   - A general wrapper for serial devices
+   - Automates device finding based on VID/PID or serial number
+   - Handles opening, writing, and closing serial connections
+
+2. XLight_Simulation class:
+   - Simulates the behavior of an XLight device
+   - Manages emission filter, dichroic wheel, and spinning disk positions
+
+3. XLight class:
+   - Wrapper for communicating with CrestOptics X-Light devices
+   - Controls emission filter, dichroic wheel, and spinning disk positions
+   - Manages disk motor state
+
+4. LDI class:
+   - Wrapper for communicating with LDI devices
+   - Controls intensity, shutter, and active channels
+
+5. SciMicroscopyLEDArray class:
+   - Wrapper for communicating with SciMicroscopy LED arrays
+   - Controls array distance, brightness, color, and illumination modes
+
+6. CellX and CellX_Simulation classes:
+   - Wrappers for communicating with CellX devices (real and simulated)
+   - Controls laser power, modulation, and on/off states
+
+7. FilterDeviceInfo class:
+   - Stores information about filter devices (firmware version, max speed, acceleration)
+
+8. FilterController and FilterController_Simulation classes:
+   - Control filter devices (real and simulated)
+   - Manage homing, position setting, and retrieval for emission filters
+
+The file uses the `serial` library for serial communication and includes various utility functions for sending commands, reading responses, and handling timeouts. It provides a high-level interface for controlling multiple types of scientific instruments, making it easier to integrate these devices into larger experimental setups or automation systems.
+File: ./software/control/gui_2cameras_sync.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling and displaying images from multiple cameras. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules, including Qt for the GUI, and custom modules for camera control, microcontroller interaction, and image processing.
+
+2. Defines a main window class `OctopiGUI` that inherits from `QMainWindow`.
+
+3. In the `__init__` method:
+   - Initializes camera objects (either simulated or real) for multiple channels.
+   - Sets up microcontroller objects.
+   - Creates image display windows for each channel.
+   - Initializes various controllers and widgets for camera settings, live control, and navigation.
+   - Sets up a tab widget for different camera channels.
+   - Creates a widget for trigger control.
+   - Sets up a widget for multi-camera recording.
+   - Arranges all widgets in a layout.
+   - Creates a dock area for displaying images and control panels.
+
+4. Sets up signal connections between various components:
+   - Connects stream handlers to live controllers and image display windows.
+   - Connects live control widgets to camera setting widgets.
+   - Connects trigger control widget to live control widgets.
+   - Connects camera callbacks to stream handlers.
+
+5. Defines a `closeEvent` method to handle proper shutdown:
+   - Stops live controllers.
+   - Closes cameras and image savers.
+   - Closes the microcontroller connection.
+
+Key features:
+- Supports multiple camera channels.
+- Provides live image display and control for each channel.
+- Includes navigation controls for a microcontroller.
+- Offers trigger control for synchronized image acquisition.
+- Supports multi-camera recording.
+- Uses a dockable interface for flexible layout.
+
+This GUI appears to be designed for a scientific imaging system, possibly for microscopy or similar applications, allowing control of multiple cameras and associated hardware.
+File: ./software/control/toupcam.py
+This Python file defines a class called `Toupcam` that provides an interface to control and interact with ToupCam cameras. Here's an overview of what the file does:
+
+1. It defines numerous constants for camera settings, flags, and options.
+
+2. It defines several data structures (classes) to hold camera information and settings.
+
+3. The main `Toupcam` class is defined, which encapsulates all the functionality to interact with the camera.
+
+4. The class uses ctypes to load and interact with the ToupCam library (DLL on Windows, shared library on Linux/Mac).
+
+5. It provides methods for:
+   - Enumerating and opening cameras
+   - Setting and getting various camera parameters (exposure, gain, white balance, etc.)
+   - Capturing images and video
+   - Controlling camera features (LED, temperature, etc.)
+   - Reading and writing to camera memory (EEPROM, flash)
+   - Performing auto functions (auto exposure, auto white balance)
+   - Getting camera information (serial number, firmware version, etc.)
+
+6. The class handles platform-specific differences (Windows vs Linux/Mac) in loading the library and calling functions.
+
+7. It provides error checking and exception handling for the library calls.
+
+8. The class implements context manager protocol (with `__enter__` and `__exit__` methods) for safe resource management.
+
+9. It includes static methods for operations that don't require an open camera instance.
+
+10. The file is designed to be imported and used in other Python scripts to control ToupCam cameras.
+
+Overall, this file provides a comprehensive Python wrapper for the ToupCam camera SDK, allowing developers to easily integrate ToupCam cameras into their Python applications.
+File: ./software/control/gui_displacement_measurement.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling and interacting with a microscope system. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules, including Qt for the GUI, and custom modules for camera control, microcontroller interaction, and various other functionalities.
+
+2. Defines a main window class `OctopiGUI` that inherits from `QMainWindow`.
+
+3. In the `__init__` method, it:
+   - Creates image display windows for live view and multichannel acquisition.
+   - Initializes camera and microcontroller objects (real or simulated).
+   - Sets up various controllers for live viewing, navigation, autofocus, multipoint acquisition, tracking (if enabled), and image saving.
+   - Configures the camera settings and starts streaming.
+   - Creates and arranges multiple widgets for different functionalities:
+     - Camera settings
+     - Live control
+     - Navigation
+     - DAC control (if enabled)
+     - Autofocus
+     - Recording control
+     - Tracking control (if enabled)
+     - Multipoint acquisition
+     - Displacement measurement
+   - Organizes these widgets into a layout.
+   - Sets up signal connections between different components for communication.
+
+4. Implements a `closeEvent` method to properly shut down the system when the application is closed.
+
+The GUI provides controls for:
+- Adjusting camera settings
+- Live view control
+- Stage navigation
+- Autofocus
+- Recording images
+- Tracking (if enabled)
+- Multipoint acquisition
+- Displacement measurement
+
+The application can be configured to display everything in a single window or use separate windows for display and control. It also includes features like software triggering, strobe output control, and various image processing capabilities.
+
+This GUI seems to be designed for a sophisticated microscope system with multiple advanced features for scientific imaging and analysis.
+File: ./software/control/camera_toupcam.py
+This Python file defines two classes: `Camera` and `Camera_Simulation`. Here's a summary of what the code does:
+
+1. The `Camera` class is designed to interface with a ToupTek camera. It includes methods for:
+   - Opening and closing the camera connection
+   - Setting camera parameters (exposure time, gain, resolution, ROI, etc.)
+   - Configuring trigger modes (continuous, software, hardware)
+   - Starting and stopping image streaming
+   - Reading frames and handling callbacks
+   - Managing temperature and fan speed (if supported by the camera)
+
+2. The `Camera_Simulation` class is a simplified version that simulates a camera. It provides similar methods to the `Camera` class but doesn't interact with actual hardware.
+
+3. Both classes have methods for:
+   - Setting exposure time and analog gain
+   - Configuring pixel format and data format
+   - Managing callbacks for new images
+   - Handling software and hardware triggers
+   - Setting and getting ROI (Region of Interest)
+
+4. The `Camera` class uses the `toupcam` library to interact with ToupTek cameras. It handles various camera operations and error checking.
+
+5. The code includes error handling for camera operations and uses threading for temperature monitoring.
+
+6. The `Camera` class supports different pixel formats (e.g., MONO8, MONO16, RGB24) and can switch between RAW and RGB data formats.
+
+7. There are methods for auto-exposure, white balance, and other camera-specific features.
+
+8. The `Camera_Simulation` class generates random image data to simulate camera output.
+
+Overall, this code provides a comprehensive interface for controlling and acquiring images from ToupTek cameras, with a simulation option for testing or development purposes without actual hardware.
+File: ./software/control/gui_simulation.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling a microscope system. Here's a breakdown of what the code does:
+
+1. It sets up the environment and imports necessary libraries, including Qt for the GUI.
+
+2. The `OctopiGUI` class is defined, inheriting from `QMainWindow`.
+
+3. In the `__init__` method:
+   - It initializes various components like camera, microcontroller, configuration manager, stream handler, and different controllers.
+   - It opens the camera and sets up software-triggered acquisition.
+   - It creates and loads various widgets for camera settings, live control, navigation, autofocus, recording, tracking, and multi-point acquisition.
+   - It sets up the layout for these widgets using a grid layout.
+   - It creates and shows windows for image display.
+   - It establishes connections between different components using signals and slots.
+
+4. The GUI includes features for:
+   - Camera control and settings
+   - Live view control
+   - Navigation (X, Y, Z positioning)
+   - Autofocus
+   - Recording (simple, tracking, and multi-point)
+   - Image display
+
+5. The `closeEvent` method is defined to handle proper shutdown when the application is closed:
+   - It homes the navigation controller
+   - Stops live view
+   - Closes the camera
+   - Closes image saver and display components
+   - Closes display windows
+
+Overall, this code sets up a comprehensive GUI for controlling a microscope system, allowing users to adjust camera settings, navigate the sample, perform autofocus, record images/videos, and display the captured images. It's designed to work with both simulated and real hardware components.
+File: ./software/control/core.py
+This Python file defines several classes and functions for controlling a microscope system. Here's a summary of the main components and their functionalities:
+
+1. ObjectiveStore: Manages microscope objectives and their properties.
+
+2. StreamHandler: Handles image streaming from the camera, including displaying, saving, and tracking.
+
+3. ImageSaver: Saves images to disk in a structured manner.
+
+4. ImageSaver_Tracking: A variant of ImageSaver for tracking experiments.
+
+5. ImageDisplay: Manages the display of images in the GUI.
+
+6. Configuration: Represents a microscope configuration (e.g., illumination, exposure settings).
+
+7. LiveController: Controls live imaging, including triggering and illumination.
+
+8. NavigationController: Manages stage movement and position tracking.
+
+9. SlidePositionController: Controls slide positioning for scanning experiments.
+
+10. AutoFocusController: Manages autofocus functionality.
+
+11. MultiPointController: Handles multi-point acquisition experiments.
+
+12. TrackingController: Manages object tracking experiments.
+
+13. ImageArrayDisplayWindow: Displays multiple images simultaneously.
+
+14. ConfigurationManager: Manages and loads microscope configurations from XML files.
+
+15. PlateReaderNavigationController: Specialized navigation controller for plate readers.
+
+16. ScanCoordinates: Manages coordinates for scanning experiments.
+
+17. LaserAutofocusController: Controls laser-based autofocus system.
+
+The file also includes various utility functions and constants related to microscope control, image processing, and experiment management. It uses libraries such as PyQt for GUI elements, OpenCV for image processing, and custom microcontroller communication for hardware control.
+
+This code appears to be part of a larger microscope control software system, providing a comprehensive set of tools for automated microscopy experiments, including multi-point acquisition, autofocus, and object tracking.
+File: ./software/control/gui_camera_only.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling a camera and related functionalities. Here's a breakdown of what the code does:
+
+1. Sets up the environment and imports necessary libraries, including Qt for the GUI.
+
+2. Defines the `OctopiGUI` class, which inherits from `QMainWindow`.
+
+3. In the `__init__` method:
+   - Initializes various objects for camera control, microcontroller simulation, configuration management, stream handling, live control, image saving, and image display.
+   - Opens the camera and sets up software-triggered acquisition with a callback.
+   - Creates and lays out widgets for camera settings, live control, and recording control.
+   - Sets up the main window layout.
+   - Creates and shows an image display window.
+   - Establishes signal connections between different components for handling new frames, updating settings, and displaying images.
+
+4. Defines a `closeEvent` method to handle proper shutdown when the application is closed:
+   - Stops live view
+   - Closes the camera
+   - Closes image saver, image display, and image display window
+
+Key features of the application include:
+- Camera control and settings adjustment
+- Live view control
+- Image recording
+- Real-time image display
+
+The code uses a modular approach, separating different functionalities into distinct objects and widgets, which allows for easier maintenance and expansion of the application.
+File: ./software/control/spectrometer_oceanoptics.py
+This Python file defines two classes: `Spectrometer` and `Spectrometer_Simulation`. Here's a breakdown of what the file does:
+
+1. Imports necessary libraries: argparse, cv2, time, numpy, threading, and seabreeze (with error handling).
+
+2. Defines the `Spectrometer` class:
+   - Initializes a spectrometer object using the seabreeze library.
+   - Provides methods to set integration time, read spectrum data, and manage data streaming.
+   - Implements a threading mechanism for continuous data streaming.
+   - Allows setting a callback function for new data.
+   - Includes methods to start, pause, resume, and stop streaming.
+
+3. Defines the `Spectrometer_Simulation` class:
+   - Simulates a spectrometer for testing or when hardware is unavailable.
+   - Mimics the functionality of the `Spectrometer` class but generates random spectrum data.
+   - Implements similar methods for integration time, spectrum reading, and data streaming.
+
+Key features of both classes:
+- Thread-safe spectrum reading to avoid conflicts.
+- Ability to start, pause, resume, and stop data streaming.
+- Option to set a callback function for processing new data.
+- Proper cleanup method (close) to stop streaming and release resources.
+
+The `Spectrometer` class interacts with actual hardware using the seabreeze library, while the `Spectrometer_Simulation` class generates simulated data for testing or development purposes.
+
+This file provides a flexible interface for working with spectrometers, allowing for both hardware-based and simulated operations with a consistent API.
+File: ./software/control/gui_hcs.py
+This Python file defines a class called `OctopiGUI` which represents the main graphical user interface for a microscope control system. Here's a summary of what the code does:
+
+1. Imports necessary libraries and modules.
+2. Defines a class `OctopiGUI` that inherits from `QMainWindow`.
+3. In the `__init__` method:
+   - Initializes various hardware components (camera, microcontroller, etc.) based on configuration settings.
+   - Creates and configures multiple widgets for different functionalities (camera settings, live control, navigation, autofocus, etc.).
+   - Sets up the layout of the GUI, including tabs for different functions.
+   - Establishes connections between different components and widgets.
+   - Configures initial settings for various hardware components.
+
+4. Implements methods for:
+   - Opening LED matrix settings
+   - Handling tab changes
+   - Toggling well selector visibility
+   - Toggling acquisition start/stop
+   - Handling the closing of the application
+
+5. The `closeEvent` method ensures proper shutdown of hardware components and saving of settings when the application is closed.
+
+Overall, this code sets up a complex GUI for controlling a microscope system, including camera control, stage navigation, autofocus, multi-point acquisition, and various other features. It's designed to be configurable for different hardware setups and includes support for features like spinning disk confocal microscopy, laser autofocus, and well plate scanning.
+File: ./software/control/gui_2cameras_daheng_tis.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling and displaying images from two cameras. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries, including Qt for the GUI and custom modules for camera control, image processing, and microcontroller interaction.
+
+2. Defines the `OctopiGUI` class, which inherits from `QMainWindow`.
+
+3. In the `__init__` method:
+   - Initializes two cameras, a microcontroller (simulation), and various controllers for streaming, live view, navigation, autofocus, and tracking.
+   - Sets up image savers and displays for both cameras.
+   - Opens both cameras and configures them for software-triggered acquisition.
+   - Creates widgets for camera settings, live control, navigation, autofocus, recording control, and tracking control.
+   - Arranges these widgets in a grid layout.
+   - Creates two image display windows.
+   - Connects various signals and slots to handle events and data flow between components.
+
+4. The `closeEvent` method is defined to properly close and clean up resources when the application is closed.
+
+Key features of the application:
+- Dual camera support with separate controls and displays for each camera.
+- Live view control for both cameras.
+- Navigation controls for moving the cameras or stage.
+- Autofocus capability for one of the cameras.
+- Recording controls for saving images from both cameras.
+- Tracking control (likely for following moving objects).
+- Separate windows for displaying images from each camera.
+
+The GUI appears to be designed for a microscopy or imaging system with two cameras, allowing for control of the cameras, stage movement, and image acquisition and processing.
+File: ./software/control/camera.py
+This Python file defines two classes: `Camera` and `Camera_Simulation`. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries: argparse, cv2, time, numpy, and gxipy (for camera control).
+
+2. Defines a function `get_sn_by_model()` to retrieve the serial number of a camera based on its model name.
+
+3. Defines the `Camera` class:
+   - Initializes camera properties and settings.
+   - Provides methods to open and close the camera connection.
+   - Implements methods to set various camera parameters (exposure time, analog gain, white balance, etc.).
+   - Handles streaming and frame acquisition.
+   - Implements callback functionality for frame capture.
+   - Provides methods to set ROI (Region of Interest) and pixel format.
+   - Handles different trigger modes (continuous, software, hardware).
+   - Implements methods for camera-specific features (e.g., strobe control).
+
+4. Defines the `Camera_Simulation` class:
+   - Simulates a camera for testing purposes.
+   - Implements similar methods as the `Camera` class but with simplified functionality.
+   - Generates random frames instead of capturing from a real camera.
+
+Key features:
+- Supports both color and monochrome cameras.
+- Allows for different trigger modes (continuous, software, hardware).
+- Provides control over exposure time, gain, white balance, and other camera settings.
+- Implements callback functionality for frame capture.
+- Supports ROI setting and pixel format configuration.
+- Includes methods for camera-specific features like strobe control.
+
+The `Camera_Simulation` class is useful for testing and development when a physical camera is not available. It mimics the behavior of the `Camera` class but generates simulated frames instead of capturing real images.
+
+This code appears to be part of a larger system for camera control and image acquisition, likely used in scientific or industrial applications requiring precise camera control and image processing.
+File: ./software/control/camera_flir.py
+This Python file defines a `Camera` class that provides an interface for controlling and interacting with FLIR cameras using the PySpin library. Here's a summary of the main functionalities:
+
+1. Camera initialization and configuration:
+   - Opening and closing camera connections
+   - Setting pixel formats, ROI (Region of Interest), and trigger modes
+   - Configuring exposure time, analog gain, and white balance
+
+2. Image acquisition:
+   - Starting and stopping streaming
+   - Reading frames
+   - Handling software and hardware triggers
+
+3. Camera information retrieval:
+   - Getting device information
+   - Retrieving camera settings and capabilities
+
+4. Image processing:
+   - Converting between different pixel formats
+   - Handling color and monochrome images
+
+5. Event handling:
+   - Implementing callback mechanisms for new image events
+
+6. Advanced features:
+   - Configuring camera lines for strobing or exposure active signals
+   - Resetting camera acquisition counters
+
+The file also includes several utility functions for interacting with different types of camera nodes (e.g., integer, float, boolean, enumeration) and handling various pixel formats.
+
+The `Camera` class is designed to work with FLIR cameras and provides a high-level interface for common camera operations, making it easier to integrate camera functionality into larger applications.
+File: ./software/control/gui_PDAF_calibration.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling and managing two cameras and a microcontroller. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules, including Qt for the GUI, and custom modules for camera control, microcontroller management, and image processing.
+
+2. Defines the `OctopiGUI` class, which inherits from `QMainWindow`.
+
+3. In the `__init__` method:
+   - Initializes microcontroller and two cameras (either real or simulated).
+   - Sets up various controllers and managers for navigation, configuration, stream handling, and live view.
+   - Opens both cameras and sets them to software-triggered acquisition mode.
+   - Creates and arranges GUI widgets for camera settings, live control, navigation, and PDAF calibration.
+   - Sets up the main window layout.
+   - Creates two image display windows for the cameras.
+   - Establishes signal connections between various components for updating the GUI and handling data flow.
+
+4. The `closeEvent` method is defined to properly close the application, stopping live views, closing cameras, and shutting down image savers and display windows.
+
+Key features of the application:
+- Controls two cameras simultaneously.
+- Provides live view for both cameras.
+- Allows navigation control (likely for a microscope stage).
+- Offers camera settings adjustment.
+- Includes PDAF (Phase Detection Autofocus) calibration functionality.
+- Supports image saving.
+- Can work with real hardware or in simulation mode.
+
+This GUI appears to be designed for a scientific imaging system, possibly a microscope with two cameras, allowing for complex control and calibration of the imaging setup.
+File: ./software/control/gui_volumetric_imaging.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling and managing various aspects of a microscopy system. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules, including Qt for the GUI and custom modules for camera control, microcontroller management, and image processing.
+
+2. Defines the `OctopiGUI` class, which inherits from `QMainWindow`.
+
+3. In the `__init__` method:
+   - Initializes various objects for camera control, microcontroller simulation, configuration management, stream handling, live control, navigation, autofocus, multipoint acquisition, tracking, image saving, and image display.
+   - Opens the camera and sets up software-triggered acquisition.
+   - Creates and loads various widgets for camera settings, live control, navigation, autofocus, recording control, tracking control, and multipoint acquisition.
+   - Arranges the widgets in a grid layout.
+   - Creates and shows windows for image display and image array display.
+   - Sets up signal connections between different components for handling events and data flow.
+
+4. Defines a `closeEvent` method to handle proper shutdown of the system when the GUI is closed, including:
+   - Homing the navigation controller
+   - Stopping live view
+   - Closing the camera
+   - Closing image saver and display components
+   - Closing display windows
+
+The GUI appears to be designed for a microscopy system with capabilities such as:
+- Live image viewing
+- Camera control and settings adjustment
+- Navigation and positioning
+- Autofocus
+- Image recording
+- Object tracking
+- Multipoint acquisition
+
+The code uses a modular approach, separating different functionalities into distinct controllers and widgets, which allows for easier maintenance and expansion of the system.
+File: ./software/control/NL5Widget.py
+This Python file creates a graphical user interface (GUI) for controlling an NL5 device using PyQt5. Here's a breakdown of what the code does:
+
+1. It imports necessary modules from PyQt5 and sys.
+
+2. Defines two classes:
+   a. NL5SettingsDialog: A dialog window for adjusting NL5 settings.
+   b. NL5Widget: The main widget for controlling the NL5 device.
+
+3. NL5SettingsDialog class:
+   - Creates a dialog with input fields for Scan Amplitude, Offset X, and Bypass Offset.
+   - Includes OK and Cancel buttons.
+   - When OK is pressed, it updates the NL5 settings and saves them.
+
+4. NL5Widget class:
+   - Creates the main interface for controlling the NL5 device.
+   - Includes input fields for Exposure Delay, Line Speed, and FOV X.
+   - Has a toggle button for enabling/disabling Bypass mode.
+   - Includes a button to open the NL5 Settings dialog.
+   - Connects user inputs to corresponding NL5 device functions.
+
+5. The main block:
+   - Creates a QApplication instance.
+   - Instantiates an NL5 object (presumably from an imported NL5 module).
+   - Creates and shows the NL5Widget.
+
+Key features:
+- Users can adjust various NL5 settings through the GUI.
+- The interface provides real-time updates to the NL5 device as settings are changed.
+- There's a separate dialog for less frequently changed settings.
+- The code is structured to separate the GUI logic from the device control logic (which is presumably in the NL5 module).
+
+Note: There's a commented-out "Start Acquisition" button in the NL5Widget, which suggests that this feature might be implemented in a future version or was removed for some reason.
+
+This GUI allows for easy control and configuration of an NL5 device without needing to interact with the device directly through code.
+File: ./software/control/gui_6060.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling a microscope system. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules.
+2. Sets up the main window and various widgets for camera control, live view, navigation, autofocus, recording, and more.
+3. Initializes hardware components:
+   - Camera (real or simulated)
+   - Microcontroller (real or simulated)
+4. Sets up controllers for various functions:
+   - Live view
+   - Navigation
+   - Autofocus
+   - Multi-point acquisition
+   - Tracking (if enabled)
+5. Performs initial setup:
+   - Retracts the objective
+   - Homes the X and Y axes
+   - Sets software limits for movement
+   - Moves to the center position
+   - Raises the objective
+6. Configures the camera for software-triggered acquisition
+7. Creates and arranges widgets in the GUI layout
+8. Sets up signal connections between different components
+9. Handles the closing event, which includes:
+   - Caching the current position
+   - Homing the system
+   - Stopping live view
+   - Closing the camera and other components
+
+The GUI allows users to:
+- Control camera settings
+- Navigate the sample
+- Perform autofocus
+- Set up and run multi-point acquisitions
+- Track samples (if enabled)
+- Record images and videos
+
+The code is designed to work with both real hardware and simulated components, making it flexible for development and testing purposes.
+File: ./software/control/core_usbspectrometer.py
+This Python file defines two main classes: `SpectrumStreamHandler` and `SpectrumSaver`. Here's a breakdown of what the file does:
+
+1. Imports necessary libraries and modules.
+
+2. Defines the `SpectrumStreamHandler` class:
+   - Handles incoming spectrum data.
+   - Controls display and saving rates (FPS).
+   - Emits signals for displaying and saving spectrum data.
+   - Measures and reports real FPS.
+   - Provides methods to start/stop recording and set FPS.
+
+3. Defines the `SpectrumSaver` class:
+   - Manages saving spectrum data to files.
+   - Uses a queue and a separate thread for saving data.
+   - Organizes saved files into folders with a maximum number of files per folder.
+   - Provides methods to set base path, recording time limit, and start new experiments.
+   - Handles file naming and folder creation.
+
+Key features:
+
+- Uses Qt for GUI-related functionality (signals and slots).
+- Implements multithreading for efficient data saving.
+- Allows control over display and save rates.
+- Provides real-time FPS measurement.
+- Organizes saved data into folders with customizable experiment IDs.
+- Supports setting a recording time limit.
+- Uses CSV format for saving spectrum data.
+
+The file is designed to be part of a larger application for spectrum analysis, likely involving real-time data acquisition, display, and storage. It provides the backend functionality for handling spectrum data streams and saving them efficiently.
+File: ./software/control/utils.py
+This Python file contains several utility functions for image processing and analysis. Here's a breakdown of what each function does:
+
+1. `crop_image`: Crops an image to a specified width and height, centered on the image.
+
+2. `calculate_focus_measure`: Calculates a focus measure for an image using either the Laplacian (LAPE) or Grayscale Variance (GLVA) method.
+
+3. `unsigned_to_signed`: Converts an unsigned integer array to a signed integer.
+
+4. `rotate_and_flip_image`: Rotates and/or flips an image based on specified parameters.
+
+5. `generate_dpc`: Generates a Differential Phase Contrast (DPC) image from left and right images.
+
+6. `colorize_mask`: Applies color to a binary mask, assigning different colors to different labeled regions.
+
+7. `colorize_mask_get_counts`: Similar to `colorize_mask`, but also returns the number of labeled objects.
+
+8. `overlay_mask_dpc`: Overlays a colored mask on a DPC image.
+
+9. `centerCrop`: Crops an image to a specified size, centered on the image.
+
+10. `interpolate_plane`: Performs linear interpolation to find the z-value at a given (x,y) point, given three known points in 3D space.
+
+The file imports necessary libraries such as OpenCV (cv2), NumPy, and SciPy for image processing and numerical operations. It provides a set of tools for various image manipulation tasks, including cropping, rotating, flipping, focus measurement, DPC generation, mask colorization, and image overlaying. These functions can be useful in various image processing applications, particularly in microscopy or computer vision tasks.
+File: ./software/control/multipoint_custom_script_entry.py
+This Python file defines a function called `multipoint_custom_script_entry` that appears to be part of a larger microscopy automation system. Here's a breakdown of what the function does:
+
+1. It handles autofocus operations:
+   - If using scan coordinates with Z-axis information, it performs autofocus for the first scan and updates coordinates.
+   - For subsequent scans, it autofocuses at the first Field of View (FOV) and offsets the rest.
+   - If not using scan coordinates with Z-axis info, it performs autofocus based on certain conditions.
+
+2. It manages Z-stacking:
+   - Moves to the bottom of the Z-stack if necessary.
+   - Performs maneuvers for uniform step size and repeatability.
+
+3. It iterates through a Z-stack:
+   - For each Z-level, it goes through selected configurations.
+   - For each configuration, it:
+     - Updates the current configuration.
+     - Triggers image acquisition.
+     - Processes and saves the acquired image.
+     - Emits signals for displaying the image.
+
+4. It handles USB spectrometer data acquisition and saving, if applicable.
+
+5. It records the coordinates of each acquisition point.
+
+6. It checks for abort requests and handles them if necessary.
+
+7. It manages Z-axis movements between acquisitions in a Z-stack.
+
+8. It updates the FOV counter after each complete acquisition set.
+
+The function seems to be part of a complex system for automated microscopy, handling various aspects such as autofocus, image acquisition, Z-stacking, and coordinate tracking. It also includes provisions for different imaging modes (e.g., fluorescence) and spectrometry.
+File: ./software/control/core_tracking.py
+This Python file defines a `TrackingController` class that is responsible for managing object tracking and motion control in a system. Here's a breakdown of its functionality:
+
+1. Environment Setup:
+   - Sets the QT_API environment variable to "pyqt5".
+   - Imports necessary libraries, including Qt-related modules, custom utility functions, and other dependencies.
+
+2. TrackingController Class:
+   - Initializes with a microcontroller and navigation controller.
+   - Creates instances of XY and Z trackers, and PID controllers for X, Y, and Z axes.
+
+3. on_new_frame Method:
+   - Called when a new frame is available for processing.
+   - Initializes the tracker and PID controller on the first frame.
+   - Processes the image (cropping and resizing - implementation not shown).
+   - Tracks the object's position in XY and Z planes.
+   - Calculates motion commands using PID controllers.
+   - Reads the current stage position from the microcontroller.
+   - Generates and sends motion commands to the microcontroller.
+
+4. Additional Features (commented out or to be implemented):
+   - Saving coordinate information and possibly enqueueing images for saving.
+   - Potential for separate XY and Z tracking threads.
+   - Possibility of using different cameras for XY and Z tracking.
+
+5. start_a_new_track Method:
+   - Resets the tracking frame counter to start a new tracking session.
+
+Key Points:
+- The class integrates object tracking, PID control, and microcontroller communication.
+- It's designed to work with a Qt-based application (likely a GUI).
+- The tracking system can handle XY plane tracking and separate Z-axis tracking.
+- The code includes placeholders and comments for future improvements and additional features.
+- It's part of a larger system that includes navigation control and microcontroller interaction.
+
+Note: Some parts of the implementation are missing or commented out, indicating that this might be a work in progress or a template for further development.
+File: ./software/control/toupcam_exceptions.py
+This Python file contains two functions and a dictionary. Here's a detailed description of what it does:
+
+1. `signed_to_unsigned(n, num_bits)` function:
+   - This is a helper function that converts a signed integer to its unsigned representation.
+   - It takes two parameters: `n` (the number to convert) and `num_bits` (the number of bits to use).
+   - It performs a bitwise AND operation between `n` and a mask created by `(1 << num_bits) - 1`.
+   - The result is converted to a hexadecimal string representation using the `hex()` function.
+   - This function is useful for handling 2's complement conversions of error codes.
+
+2. `hresult_error_lookup` dictionary:
+   - This dictionary maps HRESULT error names to their corresponding hexadecimal error codes.
+   - It contains common Windows API error codes, such as E_ACCESSDENIED, E_INVALIDARG, etc.
+   - The keys are string representations of error names, and the values are hexadecimal strings of error codes.
+
+3. `hresult_checker(exception, *error_names)` function:
+   - This function checks if a given exception matches any of the HRESULT error codes in the `hresult_error_lookup` dictionary.
+   - It takes an exception object as the first argument and an optional variable number of error names as additional arguments.
+   - The function first checks if the exception has an `hr` attribute (HRESULT code). If not, it raises the original exception.
+   - It then iterates through the `hresult_error_lookup` dictionary, comparing the lowercase hexadecimal representation of the exception's `hr` attribute with the lowercase values in the dictionary.
+   - If a match is found:
+     - If `error_names` are provided, it checks if the matched error name is in the list of `error_names`. If so, it returns the error name.
+     - If no `error_names` are provided, it returns the matched error name.
+   - If no match is found or the matched error name is not in the provided `error_names`, it raises the original exception.
+
+Overall, this code provides a way to handle and identify specific HRESULT error codes in Windows API-related exceptions, allowing for more precise error handling and reporting in Python applications interacting with Windows APIs.
+File: ./software/control/widgets.py
+This Python file defines several classes and widgets for a graphical user interface (GUI) application, likely for controlling and monitoring a microscope or imaging system. Here's a summary of the main components and their functionalities:
+
+1. WrapperWindow: A custom QMainWindow that can be hidden instead of closed.
+
+2. CollapsibleGroupBox: A custom QGroupBox that can be collapsed/expanded.
+
+3. ConfigEditorForAcquisitions: A dialog for editing configuration settings for acquisitions.
+
+4. ConfigEditor: A dialog for editing general configuration settings.
+
+5. ConfigEditorBackwardsCompatible: An extended version of ConfigEditor with additional functionality.
+
+6. SpinningDiskConfocalWidget: A widget for controlling a spinning disk confocal microscope.
+
+7. ObjectivesWidget: A widget for selecting and displaying objective lens information.
+
+8. FocusMapWidget: A widget for managing focus mapping functionality.
+
+9. CameraSettingsWidget: A widget for adjusting camera settings like exposure time and gain.
+
+10. LiveControlWidget: A widget for controlling live imaging settings.
+
+11. PiezoWidget: A widget for controlling a piezo stage.
+
+12. RecordingWidget: A widget for managing image recording settings and controls.
+
+13. NavigationWidget: A widget for controlling stage navigation.
+
+14. DACControWidget: A widget for controlling Digital-to-Analog Converter settings.
+
+15. AutoFocusWidget: A widget for controlling autofocus settings.
+
+16. FilterControllerWidget: A widget for controlling filter wheel settings.
+
+17. StatsDisplayWidget: A widget for displaying statistics.
+
+18. MultiPointWidget and MultiPointWidget2: Widgets for multi-point acquisition settings.
+
+19. StitcherWidget: A widget for image stitching controls.
+
+20. NapariLiveWidget and NapariMultiChannelWidget: Widgets for displaying live and multi-channel images using Napari.
+
+21. TrackingControllerWidget: A widget for controlling object tracking settings.
+
+22. PlateReaderAcquisitionWidget and PlateReaderNavigationWidget: Widgets for plate reader acquisition and navigation.
+
+23. TriggerControlWidget: A widget for controlling trigger settings.
+
+24. MultiCameraRecordingWidget: A widget for recording from multiple cameras.
+
+25. WaveformDisplay and PlotWidget: Widgets for displaying waveforms and plots.
+
+26. DisplacementMeasurementWidget: A widget for displacement measurements.
+
+27. LaserAutofocusControlWidget: A widget for controlling laser autofocus.
+
+28. WellSelectionWidget and Well1536SelectionWidget: Widgets for selecting wells in microplate formats.
+
+29. LedMatrixSettingsDialog: A dialog for adjusting LED matrix settings.
+
+These widgets and classes work together to create a comprehensive GUI for microscope control, image acquisition, and data analysis. The application seems to support various imaging modes, multi-point acquisitions, autofocus, and plate reader functionality.
+File: ./software/control/core_displacement_measurement.py
+This Python file defines a class called `DisplacementMeasurementController` that performs image processing and displacement measurements. Here's a breakdown of what the code does:
+
+1. It sets up the environment to use PyQt5 for the GUI.
+
+2. It imports necessary libraries, including Qt libraries, NumPy, OpenCV, and some custom modules.
+
+3. The `DisplacementMeasurementController` class is defined, inheriting from `QObject`.
+
+4. The class has two signals: `signal_readings` and `signal_plots` for emitting measurement results.
+
+5. The constructor initializes various parameters like offsets, scaling factors, and array sizes.
+
+6. The `update_measurement` method:
+   - Converts the input image to grayscale if it's in color.
+   - Calculates the center of mass of the image using intensity-weighted averages.
+   - Applies offsets and scaling to the calculated coordinates.
+   - Appends the new measurements to arrays storing time, x, and y values.
+   - Emits signals with the updated plots and readings.
+
+7. The `update_settings` method allows updating various parameters of the controller.
+
+Key functionalities:
+- Image processing: Converting to grayscale and thresholding.
+- Displacement measurement: Calculating the center of mass of the image.
+- Data management: Storing time series data for x and y displacements.
+- Real-time updates: Emitting signals with new measurements and plots.
+- Configurability: Allowing adjustment of offsets, scaling, and averaging parameters.
+
+This controller is likely part of a larger application for real-time displacement measurement, possibly in a scientific or engineering context, using image processing techniques.
+File: ./software/control/_def.py
+This Python file contains a large number of configuration settings and constants for what appears to be a microscopy or imaging system. Here's an overview of what the file does:
+
+1. Imports necessary libraries and modules.
+
+2. Defines utility functions:
+   - `conf_attribute_reader`: Parses configuration values into appropriate data types.
+   - `populate_class_from_dict`: Populates class attributes from a dictionary.
+
+3. Defines numerous classes and constants for various aspects of the system, including:
+   - Trigger modes
+   - Acquisition settings
+   - Microcontroller definitions
+   - Command sets
+   - Axis definitions
+   - Illumination codes
+   - Camera configurations
+   - Stage movement settings
+   - Encoder settings
+   - Motor and actuator configurations
+   - PID control settings
+   - LED matrix settings
+   - Plate reader configurations
+   - Objective and camera sensor information
+   - Autofocus settings
+   - Tracking settings
+   - Slide position settings
+   - Software position limits
+   - Well plate formats and configurations
+   - Spectrometer settings
+   - Focus measure operators
+   - Controller versions
+   - Laser autofocus settings
+   - Spinning disk confocal settings
+   - Napari integration settings
+   - Tiled preview settings
+   - Stitcher settings
+   - Emission filter wheel settings
+   - Piezo configuration
+
+4. Attempts to load machine-specific configurations from an INI file or a legacy TXT file.
+
+5. Applies any loaded configurations to override the default values.
+
+6. Sets additional derived configurations based on the loaded values.
+
+This file serves as a central configuration hub for the entire system, allowing for easy customization of various parameters and settings. It's designed to be flexible and adaptable to different hardware setups and experimental requirements.
+File: ./software/control/microcontroller.py
+This Python file defines two classes: `Microcontroller` and `Microcontroller_Simulation`. Both classes are designed to control and communicate with a microcontroller, with the latter being a simulation version. Here's a summary of what the code does:
+
+1. Imports necessary libraries and modules.
+
+2. Defines the `Microcontroller` class:
+   - Initializes communication with a physical microcontroller.
+   - Provides methods for various operations like moving stages, homing, setting illumination, configuring motors, etc.
+   - Implements a command sending and receiving system.
+   - Handles CRC calculations for command integrity.
+   - Manages a separate thread for reading received packets.
+
+3. Defines the `Microcontroller_Simulation` class:
+   - Simulates the behavior of a microcontroller without actual hardware.
+   - Provides similar methods as the `Microcontroller` class but with simulated responses.
+   - Implements a basic simulation of command execution timing.
+
+Key features of both classes:
+
+- Command handling for various operations (e.g., move_x, home_z, set_illumination).
+- Position tracking for X, Y, Z, and Theta axes.
+- Illumination control.
+- Motor driver configuration.
+- Limit switch and home position management.
+- PID control configuration for stages.
+- Hardware trigger functionality.
+- Callback system for new packet reception.
+- Error handling and timeout management.
+- CRC calculation for command integrity.
+
+The `Microcontroller_Simulation` class mimics the behavior of the real microcontroller, allowing for testing and development without physical hardware. It simulates command execution times and position updates.
+
+Overall, this code provides a comprehensive interface for controlling a multi-axis stage system with various additional features like illumination control and hardware triggering, suitable for microscopy or similar applications.
+File: ./software/control/RCM_API.py
+This Python file defines a class called `RCM_API` that serves as a wrapper for interacting with a C-based API through a DLL (Dynamic Link Library). Here's a breakdown of what the code does:
+
+1. Imports necessary modules: ctypes for C-type handling, pycparser for C code parsing, re for regular expressions, and sys.
+
+2. Defines a dictionary `C_TO_CTYPES` that maps C types to their ctypes equivalents.
+
+3. Defines two functions:
+   - `extract_macros_from_header`: Extracts macro definitions from a C header file.
+   - `extract_functions_from_header`: Extracts function prototypes from a C header file.
+
+4. Defines the `RCM_API` class:
+   - The constructor (`__init__`) does the following:
+     - Loads macros and functions from the 'RCM_API.h' header file.
+     - Loads the 'RCM_API.dll' library.
+     - Sets constants based on the extracted macros.
+     - Dynamically defines methods for the class based on the extracted functions.
+
+   - Defines several wrapper methods that call the corresponding C functions from the DLL:
+     - `get_string_parameter`
+     - `set_integer_parameter`
+     - `set_float_parameter`
+     - `initialize_device`
+     - `get_device_type`
+     - `start_acquisition`
+     - `set_bypass`
+     - `start_continuous_acquisition`
+     - `stop_continuous_acquisition`
+     - `get_full_error`
+
+These wrapper methods provide a more Pythonic interface to the C functions, handling type conversions and error checking.
+
+The overall purpose of this code is to create a Python interface for a C-based API, allowing Python code to interact with the functionality provided by the RCM_API.dll library. This approach is common when working with hardware devices or specialized libraries that only provide C interfaces.
+File: ./software/control/core_volumetric_imaging.py
+This Python file defines two main classes: `StreamHandler` and `ImageArrayDisplayWindow`. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules.
+
+2. Defines the `StreamHandler` class:
+   - Handles image streaming from a camera.
+   - Manages frame rates for display, saving, and tracking.
+   - Processes incoming frames (cropping, resizing).
+   - Emits signals for displaying images, writing to file, tracking, and updating the array display.
+   - Provides methods to start/stop recording and tracking, set FPS, and adjust display settings.
+
+3. Defines the `ImageArrayDisplayWindow` class:
+   - Creates a window to display an array of images (3x3 grid).
+   - Uses PyQtGraph for image rendering.
+   - Sets up the layout and individual image views.
+   - Provides a method to update individual images in the grid.
+
+Key functionalities:
+
+- Image processing: Cropping, resizing, and color conversion.
+- Frame rate management: Separate FPS for display, saving, and tracking.
+- Multi-threaded operations: Uses signals and slots for communication between threads.
+- Real-time FPS measurement.
+- Flexible display options: Adjustable resolution scaling and crop settings.
+- Support for color and monochrome cameras.
+- Integration with a tracking system (not fully implemented in this snippet).
+- Image array display: Shows multiple images in a grid layout.
+
+The code is designed to be part of a larger application, likely for scientific imaging or microscopy, where real-time image acquisition, processing, and display are required. It provides a framework for handling high-speed image streams with options for saving, tracking, and displaying the data in various formats.
+File: ./software/control/NL5.py
+This Python file defines two classes: `NL5` and `NL5_Simulation`. Both classes are designed to control and simulate a device, likely a scanning or imaging system. Here's a breakdown of what the file does:
+
+1. Imports:
+   - It imports the `RCM_API` module from `control.RCM_API`.
+   - It imports the `json` module for handling JSON data.
+
+2. NL5 Class:
+   - Initializes the RCM_API and loads settings from a JSON file.
+   - Provides methods to set various parameters:
+     - Scan amplitude
+     - X-axis offset
+     - Bypass settings
+     - Active channel
+     - Laser power
+     - Bypass offset
+     - Line speed
+     - Field of view (FOV) in X-axis
+     - Exposure delay
+   - Includes methods to start and stop acquisition.
+   - Implements methods to load settings from and save settings to a JSON file.
+
+3. NL5_Simulation Class:
+   - This class mimics the `NL5` class but is designed for simulation purposes.
+   - It has the same methods as `NL5`, but most of them are empty (pass) implementations.
+   - It still handles loading and saving settings to/from a JSON file.
+
+Key features:
+- Both classes use a JSON file ('NL5_settings.json') to store and retrieve settings.
+- The `NL5` class interacts with actual hardware through the `RCM_API`, while `NL5_Simulation` is a mock-up for testing or simulation purposes.
+- Settings include scan amplitude, offsets, FOV, exposure delay, and line speed.
+- The classes provide methods to control laser power, set active channels, and manage acquisition processes.
+- Some methods (like `set_line_speed` and `set_fov_x`) automatically save settings when called.
+
+Overall, this file appears to be part of a larger system for controlling a scanning or imaging device, with provisions for both real hardware control and simulation.
+File: ./software/control/gui.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling a microscope system. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules.
+
+2. Sets up the main window and its components:
+   - Image display windows for live view and multichannel acquisition
+   - Camera and microcontroller objects (real or simulated)
+   - Various controllers for different functionalities (e.g., live control, navigation, autofocus, multipoint acquisition, tracking)
+   - Image saving and display handlers
+
+3. Configures the camera settings and connects it to the stream handler.
+
+4. Creates and sets up various widgets for the GUI:
+   - Camera settings
+   - Live control
+   - Navigation
+   - DAC control
+   - Autofocus
+   - Recording control
+   - Tracking control (if enabled)
+   - Multipoint acquisition
+
+5. Arranges the widgets in a layout and sets up the central widget.
+
+6. Creates a docking system for the image display and control panel (if SINGLE_WINDOW is True).
+
+7. Sets up signal connections between different components of the system.
+
+8. Defines a closeEvent method to handle proper shutdown of the system when the application is closed.
+
+The GUI allows users to:
+- Control camera settings
+- Navigate the microscope stage
+- Perform autofocus
+- Record images and videos
+- Set up and run multipoint acquisitions
+- Track objects (if enabled)
+- Switch between different microscope configurations
+
+The code is designed to work with both real hardware and simulated components, making it flexible for development and testing purposes.
+File: ./software/control/gui_tiscamera_simulation.py
+This Python file defines a GUI application for controlling and managing a microscope system. Here's a breakdown of its main components and functionalities:
+
+1. Imports and Environment Setup:
+   - Sets the QT_API environment variable to use PyQt5.
+   - Imports necessary Qt libraries and custom modules for widgets, camera control, core functionality, and microcontroller control.
+
+2. OctopiGUI Class:
+   - Defines the main application window.
+   - Initializes various controllers and handlers:
+     - Camera (real or simulated)
+     - Microcontroller (real or simulated)
+     - StreamHandler
+     - LiveController
+     - NavigationController
+     - TrackingController
+     - ImageSaver
+     - ImageDisplay
+
+3. GUI Components:
+   - Creates and arranges widgets for:
+     - Camera settings
+     - Live control
+     - Navigation
+     - Recording control
+     - Tracking control
+   - Sets up a tab widget for different recording modes.
+
+4. Image Display:
+   - Creates separate windows for displaying the main image and a thresholded image.
+
+5. Signal Connections:
+   - Establishes connections between various components to handle events and data flow.
+
+6. Camera Initialization:
+   - Opens the camera and sets it to software-triggered acquisition mode.
+
+7. Layout:
+   - Arranges the widgets in a grid layout.
+
+8. Event Handling:
+   - Implements a closeEvent method to properly shut down components when the application is closed.
+
+Key Features:
+- Supports both real hardware and simulation mode.
+- Provides camera control and live image streaming.
+- Offers navigation controls for the microscope stage.
+- Includes tracking functionality.
+- Allows for image recording and saving.
+- Displays live images in separate windows.
+
+This application appears to be designed for microscopy applications, potentially for automated imaging or tracking experiments.
+File: ./software/control/gxipy/gxwrapper.py
+This Python file defines a set of functions and classes that provide an interface to interact with a camera device using the GxIAPI library. Here's an overview of what the file does:
+
+1. It imports necessary modules and loads the GxIAPI library.
+
+2. It defines several classes representing different types of data structures used by the library:
+   - GxStatusList: Defines error codes
+   - GxOpenMode: Defines device opening modes
+   - GxFeatureID: Defines feature IDs for various camera settings
+   - GxDeviceIPInfo, GxDeviceBaseInfo, GxOpenParam, GxFrameCallbackParam, GxFrameData: Structures for device and frame information
+   - GxIntRange, GxFloatRange, GxEnumDescription: Structures for parameter ranges and descriptions
+
+3. It defines numerous functions that wrap the C functions provided by the GxIAPI library. These functions allow you to:
+   - Initialize and close the library
+   - Get error information
+   - Update and get device lists
+   - Open and close devices
+   - Get and set various device features (int, float, enum, bool, string, buffer)
+   - Register and unregister callbacks for image capture and device events
+   - Get images from the device
+   - Export and import device configurations
+   - Set acquisition parameters
+   - Control the image stream (start/stop acquisition)
+
+4. It provides utility functions for string encoding/decoding and range checking.
+
+The file essentially creates a Python-friendly interface to the C-based GxIAPI library, allowing users to control and interact with compatible camera devices using Python code. It handles the conversion between Python types and C types, making it easier to use the library from Python programs.
+File: ./software/control/gui_camera_only_tiscamera.py
+This Python file defines a graphical user interface (GUI) for a camera control application called OctopiGUI. Here's a breakdown of what the code does:
+
+1. Sets up the environment and imports necessary libraries, including Qt for the GUI.
+
+2. Defines a main window class (OctopiGUI) that inherits from QMainWindow.
+
+3. In the __init__ method:
+   - Initializes camera, microcontroller, and various control objects.
+   - Opens the camera and sets up software-triggered acquisition.
+   - Creates and configures widgets for camera settings, live control, and recording.
+   - Sets up the layout for these widgets.
+   - Creates an image display window.
+   - Establishes connections between various components using signals and slots.
+
+4. The GUI includes:
+   - Camera settings widget
+   - Live control widget
+   - Recording control widget
+   - Image display window
+
+5. Sets up signal connections for:
+   - Handling new frames from the camera
+   - Updating the image display
+   - Saving images
+   - Updating camera settings (exposure time, analog gain)
+
+6. Defines a closeEvent method to handle proper shutdown:
+   - Stops live view
+   - Closes the camera
+   - Closes image saver and display components
+
+Overall, this code creates a GUI application for controlling a camera, displaying live images, adjusting camera settings, and recording images. It uses a combination of custom widgets and control classes to manage the camera and image processing pipeline.
+File: ./software/control/camera_TIS.py
+This Python file defines two classes: `Camera` and `Camera_Simulation`. Here's a breakdown of what the file does:
+
+1. Imports necessary libraries and modules.
+
+2. Defines two named tuples: `DeviceInfo` and `CameraProperty`.
+
+3. Defines the `Camera` class:
+   - Initializes camera settings and properties.
+   - Sets up a GStreamer pipeline for video capture.
+   - Provides methods for:
+     - Opening and closing the camera
+     - Setting callbacks for new frames
+     - Controlling camera properties (exposure, gain, white balance)
+     - Starting and stopping video streaming
+     - Setting acquisition modes (continuous, software-triggered, hardware-triggered)
+     - Reading frames
+   - Implements a method to convert GStreamer buffers to OpenCV images.
+
+4. Defines the `Camera_Simulation` class:
+   - Simulates a camera with similar methods to the `Camera` class.
+   - Instead of capturing real images, it generates random frames or manipulates existing ones.
+
+Key features:
+- The `Camera` class is designed to work with a specific camera (likely a The Imaging Source camera) using GStreamer.
+- It supports both color and grayscale image capture.
+- The class allows for fine-grained control over camera settings.
+- The `Camera_Simulation` class provides a way to test camera-dependent code without an actual camera.
+
+Overall, this file provides a comprehensive interface for controlling and capturing images from a specific camera model, with a simulation option for testing purposes.
+File: ./software/control/gui_platereader.py
+This Python file defines a class called `OctopiGUI` which creates a graphical user interface (GUI) for controlling a plate reader system. Here's a breakdown of what the code does:
+
+1. It sets up the environment and imports necessary libraries, including Qt for the GUI.
+
+2. The `OctopiGUI` class is defined, inheriting from `QMainWindow`.
+
+3. In the `__init__` method:
+   - It initializes camera and microcontroller objects, either in simulation mode or real hardware mode.
+   - It creates various controller objects for managing different aspects of the system (configuration, streaming, live control, navigation, autofocus, plate reading).
+   - It sets up the camera for software-triggered acquisition and enables a callback for new frames.
+
+4. It creates and lays out several widgets for different controls:
+   - Camera settings
+   - Live control
+   - Autofocus
+   - Plate reader acquisition
+   - Plate reader navigation
+
+5. It sets up an image display window.
+
+6. It establishes connections between various components:
+   - Connecting signals for new frames, image display, and saving
+   - Linking navigation controls to position displays
+   - Connecting autofocus and plate reading controllers to the image display
+   - Linking live control widget to camera settings
+
+7. It sets up a callback for the microcontroller to update position information.
+
+8. The `closeEvent` method is defined to handle proper shutdown of components when the application is closed.
+
+Overall, this code creates a comprehensive GUI for controlling a plate reader system, including camera control, live viewing, navigation, autofocus, and plate reading functionality. It's designed to work with both simulated and real hardware setups.
+File: ./software/control/core_platereader.py
+This Python file defines two main classes: `PlateReadingWorker` and `PlateReadingController`. Here's a summary of what the code does:
+
+1. Imports necessary libraries and modules.
+
+2. Defines the `PlateReadingWorker` class:
+   - Inherits from QObject for Qt functionality.
+   - Handles the actual plate reading process.
+   - Implements methods for running the acquisition, including multiple time points, columns, rows, and Z-stacks.
+   - Manages autofocus, image capture, and saving.
+
+3. Defines the `PlateReadingController` class:
+   - Also inherits from QObject.
+   - Acts as a controller for the plate reading process.
+   - Initializes various parameters and objects needed for plate reading.
+   - Provides methods to set acquisition parameters (e.g., number of Z-stacks, time points, etc.).
+   - Manages the creation of experiment folders and configuration saving.
+   - Implements the `run_acquisition` method, which sets up and starts the acquisition process using a separate thread.
+   - Handles signals and slots for communication between the worker and the main application.
+
+4. The code implements a multi-threaded approach to run the plate reading process in the background, allowing the main GUI to remain responsive.
+
+5. It includes functionality for:
+   - Moving the plate reader to specific positions.
+   - Capturing images with different configurations.
+   - Performing autofocus.
+   - Saving images with appropriate file names and metadata.
+   - Managing multiple imaging modes and configurations.
+
+6. The code also handles the start and stop of live view, callback enabling/disabling, and restoration of previous states after acquisition.
+
+Overall, this file implements the core functionality for automated plate reading in a microscopy system, with support for various imaging modes, Z-stacks, time-lapse acquisition, and multi-well plate scanning.
+File: ./software/control/widgets_usbspectrometer.py
+This Python file defines several classes for a spectrometer control and data visualization application. Here's a breakdown of what the code does:
+
+1. It sets up the environment to use PyQt5 as the Qt API.
+
+2. It imports necessary libraries, including Qt-related modules and PyQtGraph for plotting.
+
+3. The `SpectrometerControlWidget` class:
+   - Creates a widget for controlling the spectrometer.
+   - Includes buttons and input fields for live viewing and setting exposure time.
+   - Connects user interactions to spectrometer functions.
+
+4. The `RecordingWidget` class:
+   - Manages the recording functionality of the spectrometer.
+   - Allows users to set saving directory, experiment ID, and recording parameters.
+   - Handles starting and stopping of recording sessions.
+
+5. The `SpectrumDisplay` class:
+   - Creates a widget for displaying the spectrum data.
+   - Uses a `PlotWidget` to visualize the spectrum.
+
+6. The `PlotWidget` class:
+   - A custom widget based on PyQtGraph for plotting data.
+   - Provides methods for plotting x and y data.
+
+Key features of the application:
+- Live viewing of spectrometer data
+- Adjustable exposure time
+- Recording of spectral data with customizable parameters
+- File saving with experiment ID and timestamp
+- Real-time plotting of spectral data
+
+The code sets up the UI components and connects them to underlying functionality, presumably implemented in other parts of the application (e.g., `spectrometer`, `streamHandler`, `imageSaver`). It provides a user-friendly interface for controlling a spectrometer, visualizing spectral data, and recording experiments.
+File: ./software/control/utils_config.py
+This Python script creates an XML file that defines various imaging modes for a microscopy system. Here's a breakdown of what the script does:
+
+1. It imports the `etree` module from `lxml` library and aliases it as `ET`.
+
+2. It creates a root element called 'modes' using `ET.Element('modes')`.
+
+3. It defines a function called `generate_default_configuration` that takes a filename as an argument.
+
+4. Inside this function, it creates multiple `SubElement`s under the root 'modes' element, each representing a different imaging mode (e.g., brightfield, fluorescence, etc.).
+
+5. For each mode, it sets various attributes such as:
+   - ID: A unique identifier for the mode
+   - Name: A descriptive name for the mode
+   - ExposureTime: The exposure time for image capture
+   - AnalogGain: The analog gain setting
+   - IlluminationSource: The source of illumination
+   - IlluminationIntensity: The intensity of the illumination
+   - CameraSN: Camera serial number (left blank in this case)
+   - ZOffset: Z-axis offset
+   - PixelFormat: The pixel format for image capture
+   - _PixelFormat_options: Available pixel format options
+   - EmissionFilterPosition: Position of the emission filter
+
+6. The script defines several modes, including:
+   - Various brightfield (BF) modes with different LED matrix configurations
+   - Darkfield (DF) mode
+   - Fluorescence modes with different excitation wavelengths (405nm, 488nm, 561nm, 638nm, 730nm)
+   - RGB and individual color channel modes
+   - A USB Spectrometer mode
+
+7. Some modes are commented out (mode_10 and mode_11), indicating they are not currently in use but may be added later.
+
+8. After defining all the modes, the script creates an ElementTree object from the root element.
+
+9. Finally, it writes the XML tree to a file specified by the `filename` argument, with UTF-8 encoding, an XML declaration, and pretty-printing for readability.
+
+This script essentially generates a configuration file that can be used to set up different imaging modes for a microscopy system, allowing for easy switching between various illumination and capture settings.
+File: ./software/control/processing_handler.py
+This Python file defines a system for parallel processing of images and subsequent uploading of the processed results. Here's a breakdown of its components and functionality:
+
+1. Imports:
+   - It imports necessary libraries: threading, queue, numpy, pandas, and a custom control.utils module.
+
+2. default_image_preprocessor function:
+   - This function applies a series of callable functions to an input image.
+   - It takes an image (as a numpy array) and a list of callable dictionaries.
+   - Each callable in the list is applied sequentially to the image.
+
+3. ProcessingHandler class:
+   - This class manages parallel processing of Field of View (FOV) images.
+
+   Key attributes:
+   - processing_queue: A queue for tasks to be processed.
+   - upload_queue: A queue for processed tasks ready to be uploaded.
+   - processing_thread and uploading_thread: Threads for handling processing and uploading.
+
+   Main methods:
+   - processing_queue_handler: Continuously processes tasks from the processing_queue and puts results in the upload_queue.
+   - upload_queue_handler: Continuously handles tasks from the upload_queue.
+   - start_processing and start_uploading: Start the respective threads.
+   - end_uploading and end_processing: Methods to safely terminate the processing and uploading threads.
+
+4. Queue Structure:
+   - Both queues use dictionaries to represent tasks.
+   - Task format: {'function': callable, 'args': list of args, 'kwargs': dict of kwargs}
+   - Special task {'function': 'end'} is used to signal thread termination.
+
+5. Threading:
+   - The class uses Python's threading module to run processing and uploading in parallel.
+
+6. Error Handling:
+   - The queue handlers use try-except blocks to handle queue.Empty exceptions, which occur when the queue is empty and the timeout is reached.
+
+7. Flexibility:
+   - The system is designed to be flexible, allowing different functions to be passed for processing and uploading tasks.
+
+Overall, this code provides a framework for parallel processing of images (or other data) with a separate thread for uploading results, which can be useful in scenarios where image processing and data uploading need to be performed efficiently and concurrently.
+File: ./software/control/utils_/image_processing.py
+This Python file contains several utility functions for image processing and object tracking. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries: numpy, cv2 (OpenCV), and some functions from scipy.
+
+2. Defines color-related functions:
+   - `default_lower_HSV` and `default_upper_HSV`: Create lower and upper bounds for HSV color thresholding.
+
+3. Image thresholding functions:
+   - `threshold_image`: Thresholds a BGR image using HSV color space.
+   - `threshold_image_gray`: Thresholds a grayscale image.
+
+4. Image conversion and manipulation:
+   - `bgr2gray`: Converts BGR image to grayscale.
+   - `crop`: Crops an image around a center point.
+   - `crop_image`: Crops an image to specified dimensions.
+
+5. Bounding box function:
+   - `get_bbox`: Gets the bounding box of a contour.
+
+6. Centroid finding functions:
+   - `find_centroid_enhanced`: Finds centroids of contours and selects the best one based on a tracking metric.
+   - `find_centroid_enhanced_Rect`: Similar to above, but also returns a bounding rectangle.
+   - `find_centroid_basic`: Finds the centroid of the largest contour.
+   - `find_centroid_basic_Rect`: Similar to above, but also returns a bounding box.
+
+7. Bounding box manipulation:
+   - `scale_square_bbox`: Scales and optionally squares a bounding box.
+
+8. Image dimension functions:
+   - `get_image_center_width`, `get_image_height_width`, `get_image_top_center_width`: Return various image dimensions and points.
+
+9. Focus and tracking functions:
+   - `YTracking_Objective_Function`: Calculates image variance for tracking.
+   - `calculate_focus_measure`: Calculates a focus measure using Laplacian.
+
+10. Test section:
+    - Demonstrates usage of some functions with sample images.
+
+11. Commented-out function:
+    - `find_centroid_many`: For tracking multiple objects (currently commented out).
+
+This code provides a toolkit for image processing tasks, particularly focused on color-based object detection, tracking, and image manipulation. It's designed to be used as a module in larger computer vision applications.
+File: ./software/control/tracking.py
+This Python file defines a class called `Tracker_Image` that implements various object tracking methods. Here's a breakdown of what the code does:
+
+1. Imports necessary libraries and modules, including OpenCV, PyTorch, and custom modules.
+
+2. Defines the `Tracker_Image` class with the following main components:
+
+   a. Initialization (`__init__`):
+      - Sets up available trackers (OpenCV and neural network-based)
+      - Initializes tracker type, initialization method, and other tracking-related variables
+
+   b. Tracking method (`track`):
+      - Handles both initialization and continuous tracking
+      - Uses different methods based on the selected tracker type and initialization method
+
+   c. Reset method (`reset`):
+      - Resets the tracker state
+
+   d. Tracker creation (`create_tracker`):
+      - Creates the selected tracker object
+
+   e. Tracker initialization (`_initialize_tracker`):
+      - Initializes the tracker with the first frame and bounding box
+
+   f. Tracker update (`_update_tracker`):
+      - Updates the tracker with new frames and returns the new bounding box
+
+   g. Utility methods:
+      - `update_tracker_type`: Updates the tracker type
+      - `update_init_method`: Updates the initialization method
+      - `centroid_from_bbox`: Calculates centroid from bounding box
+      - `rectpts_from_bbox`: Calculates rectangle points from bounding box
+      - `update_searchArea`: Updates the search area
+      - `set_roi_bbox`: Sets the region of interest bounding box
+
+3. Supports multiple tracking algorithms:
+   - OpenCV trackers: CSRT, KCF, MIL, and others (if available)
+   - Neural network-based tracker: DaSiamRPN
+   - Basic thresholding and nearest neighbor tracking
+
+4. Handles both color and grayscale images.
+
+5. Provides flexibility in tracker initialization (ROI-based or threshold-based).
+
+6. Manages tracker state, including centroid position, bounding box, and tracking status.
+
+This class is designed to be used in a larger application, likely for real-time object tracking in video streams or image sequences. It provides a flexible interface for different tracking methods and can be easily integrated into a GUI-based tracking system.
+File: ./software/control/gxipy/gxidef.py
+This Python file defines a series of classes and constants related to image processing and camera control. Here's a breakdown of what it contains:
+
+1. Constants:
+   - Defines minimum and maximum values for gamma, contrast, and unsigned integer types.
+
+2. Classes:
+   Each class represents a set of constants or enumerations for different aspects of image processing and camera control. The classes include:
+
+   - GxFrameStatusList: Frame state codes
+   - GxDeviceClassList: Device type codes
+   - GxAccessMode: Device access modes
+   - GxAccessStatus: Device access statuses
+   - GxIPConfigureModeList: IP configuration modes
+   - GxPixelSizeEntry: Pixel size entries
+   - GxPixelColorFilterEntry: Pixel color filter entries
+   - GxPixelFormatEntry: Pixel format entries
+   - GxAcquisitionModeEntry: Acquisition mode entries
+   - GxTriggerSourceEntry: Trigger source entries
+   - GxTriggerActivationEntry: Trigger activation entries
+   - GxExposureModeEntry: Exposure mode entries
+   - GxUserOutputSelectorEntry: User output selector entries
+   - GxUserOutputModeEntry: User output mode entries
+   - GxGainSelectorEntry: Gain selector entries
+   - GxBlackLevelSelectEntry: Black level selector entries
+   - GxBalanceRatioSelectorEntry: Balance ratio selector entries
+   - GxAALightEnvironmentEntry: Light environment entries
+   - GxUserSetEntry: User set entries
+   - GxAWBLampHouseEntry: AWB lamp house entries
+   - GxTestPatternEntry: Test pattern entries
+   - GxTriggerSelectorEntry: Trigger selector entries
+   - GxLineSelectorEntry: Line selector entries
+   - GxLineModeEntry: Line mode entries
+   - GxLineSourceEntry: Line source entries
+   - GxEventSelectorEntry: Event selector entries
+   - GxLutSelectorEntry: LUT selector entries
+   - GxTransferControlModeEntry: Transfer control mode entries
+   - GxTransferOperationModeEntry: Transfer operation mode entries
+   - GxTestPatternGeneratorSelectorEntry: Test pattern generator selector entries
+   - GxChunkSelectorEntry: Chunk selector entries
+   - GxBinningHorizontalModeEntry: Binning horizontal mode entries
+   - GxBinningVerticalModeEntry: Binning vertical mode entries
+   - GxAcquisitionStatusSelectorEntry: Acquisition status selector entries
+   - GxGammaModeEntry: Gamma mode entries
+   - GxColorTransformationModeEntry: Color transformation mode entries
+   - GxColorTransformationValueSelectorEntry: Color transformation value selector entries
+   - GxAutoEntry: Auto entries
+   - GxSwitchEntry: Switch entries
+   - GxRegionSendModeEntry: Region send mode entries
+   - GxRegionSelectorEntry: Region selector entries
+   - DxBayerConvertType: Bayer conversion type entries
+   - DxValidBit: Valid bit entries
+   - DxImageMirrorMode: Image mirror mode entries
+
+3. Pixel format constants:
+   - Defines various pixel format constants using bitwise operations.
+
+This file appears to be a part of a larger image processing or camera control library, providing a comprehensive set of enumerations and constants for various settings and modes related to image acquisition, processing, and camera control.
+File: ./software/control/ImSwitch/imagetools.py
+This Python file contains two functions for determining contrast levels in image data:
+
+1. `bestLevels(arr)`:
+   - This function implements an algorithm to find optimal minimum and maximum contrast levels for an image.
+   - It's based on an ImageJ routine for automatic brightness/contrast adjustment.
+   - The function takes a numpy array `arr` as input, which represents the image data.
+   - It calculates a histogram of the image data with 256 bins.
+   - It then searches for the lower (hmin) and upper (hmax) bounds of the histogram that meet certain criteria:
+     - The count in each bin should be above a threshold but below a limit.
+   - The function returns the bin edges corresponding to hmin and hmax as the optimal contrast levels.
+
+2. `minmaxLevels(arr)`:
+   - This is a simpler function that returns basic minimum and maximum levels for contrast.
+   - It sets the minimum level to 0 and the maximum level to the maximum value in the input array plus 2.
+
+Additional notes:
+- The file imports numpy, suggesting it's designed to work with numerical arrays.
+- There's a copyright notice at the end, indicating that this code is part of a larger project called "Tormenta".
+- The code is released under the GNU General Public License, which allows for free use, modification, and distribution under certain conditions.
+
+Overall, this file provides tools for automatically determining contrast levels in image data, which could be useful in image processing or visualization tasks.
+File: ./software/control/gxipy/__init__.py
+This Python file appears to be a module or package related to camera control or image processing. Let's break down its components:
+
+1. Shebang and Encoding:
+   - The first line `#!/usr/bin/python` is a shebang, indicating that this script should be executed using Python.
+   - The second line `# -*- coding:utf-8 -*-` specifies that the file uses UTF-8 encoding.
+
+2. Editor Settings:
+   - The third line `# -*-mode:python ; tab-width:4 -*- ex:set tabstop=4 shiftwidth=4 expandtab: -*-` appears to be editor-specific settings, likely for consistent indentation and formatting.
+
+3. Imports:
+   - The file imports several modules from a package called `control.gxipy`:
+     - `gxiapi`: Likely contains the main API functions for camera control.
+     - `gxidef`: Probably contains definitions and constants used in the API.
+     - `gxwrapper`: Might be a wrapper class or module for easier interaction with the API.
+
+4. Module Exports:
+   - The `__all__` list specifies which modules or objects should be exported when using `from module import *`. It includes:
+     - "gxwrapper"
+     - "dxwrapper" (Note: This is not imported in the file, so it might be defined elsewhere in the package)
+     - "gxiapi"
+     - "gxidef"
+
+5. Version Information:
+   - The `__version__` variable is set to '1.0.1809.9281', indicating the version of this module or package.
+
+Overall, this file seems to be an initialization file (`__init__.py`) for a Python package related to camera control or image processing. It imports necessary modules, sets up exports, and defines the package version. The actual functionality would be implemented in the imported modules (gxiapi, gxidef, gxwrapper).
+
+The package appears to be related to a specific camera or imaging system, possibly from a manufacturer whose product name starts with "GX" (based on the module names).
+File: ./software/control/ImSwitch/napariViewerWidget.py
+This Python file defines a custom widget class called `ImageWidget` that is designed to display and manipulate images using the Napari viewer. Here's a breakdown of its functionality:
+
+1. The class inherits from `QtWidgets.QWidget`, making it a Qt-based widget.
+
+2. It initializes a Napari viewer embedded within the widget.
+
+3. It sets up a layout to contain the Napari viewer widget.
+
+4. It creates a grid and a crosshair visual, which can be added to the viewer.
+
+5. The class provides methods to:
+   - Set and manage live view layers
+   - Add static image layers
+   - Get and set images in specific layers
+   - Clear images
+   - Get and set image display levels (contrast)
+   - Get the center of the viewbox
+   - Update and control visibility of the grid and crosshair
+   - Reset the view
+   - Add and remove items from the viewer
+
+6. It includes commented-out code for additional widgets like level updating and view resetting, which could be uncommented and used if needed.
+
+7. There's a commented-out shortcut method for updating levels, which could be implemented if needed.
+
+8. The class uses custom modules like `naparitools` and `shortcut` from the `control.ImSwitch` package, indicating it's part of a larger application.
+
+9. The file includes a copyright notice and license information at the end, stating it's part of the ImSwitch project and is distributed under the GNU General Public License.
+
+Overall, this class provides a comprehensive interface for displaying and manipulating images within a Qt application, leveraging the Napari viewer for advanced image visualization capabilities.
+File: ./software/control/ImSwitch/shortcut.py
+This Python file defines a decorator and a function for creating and managing shortcuts. Here's a detailed description of what the code does:
+
+1. `shortcut` class:
+   - This is a decorator class used to mark methods as shortcuts.
+   - It takes two parameters: `key` (likely a keyboard shortcut) and `name` (a descriptive name for the shortcut).
+   - When applied to a method, it adds three attributes to the method:
+     - `_Shortcut`: Set to True, indicating that this method is a shortcut.
+     - `_Key`: The key (shortcut) associated with the method.
+     - `_Name`: The name of the shortcut.
+
+2. `generateShortcuts` function:
+   - This function takes an array of objects (`objs`) as input.
+   - It iterates through all the objects and their attributes to find methods decorated with the `shortcut` decorator.
+   - For each shortcut method found, it creates an entry in the `exportedFuncs` dictionary.
+   - The dictionary key is the method name, and the value is another dictionary containing:
+     - `callback`: The method itself.
+     - `key`: The shortcut key associated with the method.
+     - `name`: The name of the shortcut.
+   - If a method name is already in use as a shortcut, it raises a `NameError`.
+   - Finally, it returns the `exportedFuncs` dictionary.
+
+3. Copyright and License Information:
+   - The file includes a copyright notice for ImSwitch developers.
+   - It states that the code is part of ImSwitch, which is free software.
+   - The license information indicates that the code is distributed under the GNU General Public License version 3 or later.
+
+Overall, this code provides a mechanism for easily defining and collecting shortcut methods in a set of objects. This could be useful in a larger application for managing keyboard shortcuts or other types of quick-access functions.
+File: ./software/control/ImSwitch/naparitools.py
+This Python file contains several classes and functions related to creating custom widgets and visual elements for use with the Napari viewer, a multi-dimensional image viewer for Python. Here's a summary of the main components:
+
+1. `addNapariGrayclipColormap()`: Adds a custom colormap to Napari.
+
+2. `EmbeddedNapari`: A subclass of Napari viewer with additional features for embedding in non-Napari windows and protecting layers from removal.
+
+3. `NapariBaseWidget`: A base class for creating custom Napari widgets.
+
+4. `NapariUpdateLevelsWidget`: A widget for auto-leveling the currently selected layer.
+
+5. `NapariResetViewWidget`: A widget for resetting the dimensional view of the selected layer.
+
+6. `NapariShiftWidget`: A widget for shifting the selected layer by a user-defined number of pixels.
+
+7. `VispyBaseVisual`: A base class for creating custom Vispy visual elements.
+
+8. `VispyROIVisual`: A visual element for creating a region of interest (ROI) that can be moved and resized.
+
+9. `VispyLineVisual`: A visual element for creating a movable line.
+
+10. `VispyGridVisual`: A visual element for creating a grid overlay.
+
+11. `VispyCrosshairVisual`: A visual element for creating a crosshair that follows the mouse cursor.
+
+12. `VispyScatterVisual`: A visual element for creating scatter plots.
+
+These classes and functions extend the functionality of Napari by providing custom widgets for image manipulation and analysis, as well as visual overlays for displaying additional information on top of images. They use both Napari's API and Vispy, a scientific visualization library, to create interactive and customizable elements within the Napari viewer.
+File: ./software/control/gxipy/dxwrapper.py
+This Python file is a wrapper for a C/C++ library that provides image processing functionality. Here's a breakdown of what the file does:
+
+1. It imports necessary modules (ctypes and sys).
+
+2. It attempts to load the appropriate library based on the operating system:
+   - On Linux, it tries to load 'libgxiapi.so'
+   - On Windows, it tries to load 'DxImageProc.dll'
+
+3. It defines several classes for status codes and enumerations:
+   - DxStatus: Defines status codes for operations
+   - DxPixelColorFilter: Defines Bayer layout patterns (with different orders for Linux and Windows)
+   - DxActualBits: Defines image bit depths
+
+4. It defines several functions that wrap C library functions:
+
+   - dx_get_gamma_lut: Calculates a gamma lookup table for RGB24 images
+   - dx_get_contrast_lut: Calculates a contrast lookup table for RGB24 images
+   - dx_raw8_to_rgb24: Converts Raw8 images to RGB24 format
+   - dx_raw16_to_raw8: Converts Raw16 images to Raw8 format
+   - dx_image_improvement: Performs image quality improvement on RGB24 images
+
+5. Each of these functions uses ctypes to call the corresponding C function from the loaded library, handling the conversion between Python and C data types.
+
+6. The file includes commented-out code for additional structures (MonoImgProcess and ColorImgProcess) and a function (gx_get_lut) that are not currently in use.
+
+7. The code uses conditional statements (if hasattr(dll, ...)) to check if the loaded library has specific functions before defining the corresponding Python wrappers. This allows for graceful handling of different library versions or configurations.
+
+This file serves as an interface between Python code and a C/C++ image processing library, allowing Python programs to use the library's functionality for tasks like color conversion, bit depth conversion, and image quality improvement.
+File: ./software/control/gxipy/gxiapi.py
+This Python file defines a set of classes and functions for interacting with and controlling industrial cameras, likely from a specific manufacturer. Here's an overview of the main components:
+
+1. DeviceManager class:
+   - Manages device discovery, enumeration, and opening
+   - Provides methods to update device lists, get device info, and open devices by various identifiers (index, serial number, user ID, IP, MAC)
+
+2. Feature classes (IntFeature, FloatFeature, EnumFeature, BoolFeature, StringFeature, BufferFeature, CommandFeature):
+   - Represent different types of camera features/settings
+   - Provide methods to get and set values for these features
+
+3. Device class:
+   - Represents a camera device
+   - Contains numerous feature objects for various camera settings and controls
+   - Provides methods for starting/stopping image acquisition, exporting/importing config files, and registering callbacks
+
+4. Specialized Device classes (GEVDevice, U3VDevice, U2Device):
+   - Inherit from Device class and add protocol-specific features
+
+5. DataStream and specialized DataStream classes:
+   - Handle image data streaming from the camera
+   - Provide methods for getting images and managing acquisition buffers
+
+6. RawImage and RGBImage classes:
+   - Represent raw and RGB image data respectively
+   - Provide methods for image conversion, saving, and accessing image data
+
+7. Utility class:
+   - Provides static methods for getting gamma and contrast lookup tables
+
+8. Various Exception classes for error handling
+
+9. Helper functions and classes for status processing, buffer management, and type checking
+
+The file also includes numerous constants and enumerations for various camera settings and parameters.
+
+This code appears to be a comprehensive SDK wrapper for controlling industrial cameras, allowing users to discover cameras, configure settings, acquire images, and process image data in various formats.

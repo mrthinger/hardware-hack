@@ -1,0 +1,23 @@
+{
+  "extends": "../tsconfig-base.json",
+  "files": ["src/protocol-storage/__fixtures__/analysisResult.json"],
+  "references": [
+    {
+      "path": "../discovery-client"
+    },
+    {
+      "path": "../shared-data"
+    },
+    {
+      "path": "../usb-bridge/node-client"
+    }
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "src",
+    "outDir": "lib",
+    "target": "esnext",
+    "module": "ESNext"
+  },
+  "include": ["typings", "src"]
+}

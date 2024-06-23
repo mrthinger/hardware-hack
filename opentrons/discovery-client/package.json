@@ -1,0 +1,37 @@
+{
+  "name": "@opentrons/discovery-client",
+  "version": "0.0.0-dev",
+  "description": "Node.js client for discovering Opentrons robots on the network",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "source": "src/index.ts",
+  "bin": {
+    "discovery": "bin/index.js",
+    "discovery-ssh": "bin/discovery-ssh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Opentrons/opentrons.git"
+  },
+  "author": "Opentrons Labworks <engineering@opentrons.com> (https://opentrons.com)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Opentrons/opentrons/issues"
+  },
+  "homepage": "https://github.com/Opentrons/opentrons#readme",
+  "dependencies": {
+    "@types/lodash": "^4.14.191",
+    "@types/node-fetch": "^2.5.8",
+    "@types/yargs": "17.0.32",
+    "escape-string-regexp": "1.0.5",
+    "is-ip": "3.1.0",
+    "lodash": "4.17.21",
+    "mdns-js": "1.0.1",
+    "node-fetch": "2.6.7",
+    "redux": "4.0.5",
+    "reselect": "4.0.0",
+    "stable": "0.1.8",
+    "to-regex": "3.0.2",
+    "yargs": "15.4.0"
+  }
+}

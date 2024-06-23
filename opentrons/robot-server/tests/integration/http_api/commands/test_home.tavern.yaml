@@ -1,0 +1,113 @@
+test_name: home standalone command
+
+marks:
+  - usefixtures:
+      - ot2_server_base_url
+
+stages:
+  - name: issue home Command params all
+    request:
+      url: '{ot2_server_base_url}/commands'
+      method: POST
+      params:
+        waitUntilComplete: true
+      json:
+        data:
+          commandType: home
+          params:
+            axes:
+              - x
+              - y
+              - leftZ
+              - rightZ
+              - leftPlunger
+              - rightPlunger
+    response:
+      strict:
+        - json:off
+      status_code: 201
+      json:
+        data:
+          status: succeeded
+      save:
+        json:
+          command_id_all: data.id
+  - name: issue home Command params empty
+    request:
+      url: '{ot2_server_base_url}/commands'
+      method: POST
+      params:
+        waitUntilComplete: true
+      json:
+        data:
+          commandType: home
+          params: {}
+    response:
+      strict:
+        - json:off
+      status_code: 201
+      json:
+        data:
+          status: succeeded
+      save:
+        json:
+          command_id_empty: data.id
+  - name: Get command by id
+    request:
+      url: '{ot2_server_base_url}/commands/{command_id_empty}'
+      method: GET
+    response:
+      strict:
+        - json:off
+      status_code: 200
+      json:
+        data:
+          id: '{command_id_empty}'
+          status: succeeded
+  - name: Get commands
+    request:
+      url: '{ot2_server_base_url}/commands'
+      method: GET
+    response:
+      strict:
+        - json:off
+      status_code: 200
+      json:
+        data: # order is enforced on this check!
+            - id: '{command_id_all}'
+            - id: '{command_id_empty}'
+  - name: Create Empty Run
+    request:
+      url: '{ot2_server_base_url}/runs'
+      json:
+        data: {}
+      method: POST
+    response:
+      strict:
+        - json:off
+      status_code: 201
+      json:
+        data:
+          id: !anystr
+          status: idle
+          current: true
+      save:
+        json:
+          run_id: data.id
+  - name: issue home Command
+    request:
+      url: '{ot2_server_base_url}/commands'
+      method: POST
+      params:
+        waitUntilComplete: true
+      json:
+        data:
+          commandType: home
+          params: {}
+    response:
+      strict:
+        - json:off
+      status_code: 201
+      json:
+        data:
+          status: succeeded

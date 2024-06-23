@@ -1,0 +1,5 @@
+# Ignore all simulator configurations
+*.json
+# ...unless specifically allowed.
+!test.json
+!test-flex.json
